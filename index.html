@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            padding: 10px;
+            padding: 5px;
             background: linear-gradient(135deg, #1e3c72, #2a5298, #1a237e);
             font-family: Arial, sans-serif;
             color: white;
@@ -15,16 +15,17 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
         
         #gameContainer {
             position: relative;
             width: 100%;
-            height: calc(100vh - 200px);
-            min-height: 400px;
-            max-height: 800px;
-            border: 3px solid #fff;
-            border-radius: 15px;
+            height: calc(100vh - 180px);
+            min-height: 300px;
+            max-height: 600px;
+            border: 2px solid #fff;
+            border-radius: 10px;
             background: radial-gradient(circle at center, #0f1419, #1a237e);
             overflow: hidden;
             cursor: crosshair;
@@ -34,75 +35,75 @@
         #gameInfo {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 5px;
+            font-size: clamp(10px, 2vw, 12px);
             background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 10px;
+            padding: clamp(4px, 1vw, 8px);
+            border-radius: 8px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 5px;
         }
         
         .info-section {
             text-align: center;
             flex: 1;
-            min-width: 100px;
+            min-width: 80px;
         }
         
         #globalLevel {
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: clamp(4px, 1.5vw, 8px) clamp(8px, 3vw, 15px);
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 18px;
+            font-size: clamp(12px, 2.5vw, 16px);
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(255,107,53,0.5);
+            box-shadow: 0 0 10px rgba(255,107,53,0.5);
         }
         
         #stageInfo {
             text-align: center;
             background: rgba(0,0,0,0.5);
-            padding: 15px;
-            margin-bottom: 8px;
-            border-radius: 10px;
+            padding: clamp(5px, 1.5vw, 10px);
+            margin-bottom: 5px;
+            border-radius: 8px;
             border: 2px solid #4caf50;
         }
         
         #legend {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
-            font-size: 11px;
+            gap: clamp(4px, 1.5vw, 8px);
+            margin-bottom: 5px;
+            font-size: clamp(8px, 1.2vw, 10px);
             opacity: 0.9;
             flex-wrap: wrap;
             background: rgba(0,0,0,0.3);
-            padding: 8px;
-            border-radius: 8px;
+            padding: clamp(3px, 1vw, 6px);
+            border-radius: 6px;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
         }
         
         .progress-bar {
             width: 100%;
-            height: 20px;
+            height: clamp(15px, 2.5vw, 18px);
             background: rgba(0,0,0,0.3);
-            border-radius: 10px;
-            margin: 10px 0;
+            border-radius: 9px;
+            margin: 8px 0;
             overflow: hidden;
         }
         
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #4caf50, #8bc34a);
-            border-radius: 10px;
+            border-radius: 9px;
             transition: width 0.3s ease;
             position: relative;
         }
@@ -112,7 +113,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 12px;
+            font-size: clamp(9px, 1.5vw, 11px);
             font-weight: bold;
             color: white;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
@@ -120,18 +121,18 @@
         
         .star {
             position: absolute;
-            font-size: 30px;
+            font-size: clamp(20px, 3.5vw, 25px);
             cursor: pointer;
             transition: transform 0.1s;
             animation: twinkle 1.5s infinite alternate;
         }
         
         .star-regular { color: #ffeb3b; }
-        .star-blue { color: #4169e1; font-size: 28px; }
-        .star-silver { color: #c0c0c0; font-size: 32px; }
-        .star-gold { color: #ffd700; font-size: 35px; }
+        .star-blue { color: #4169e1; font-size: clamp(18px, 3.2vw, 23px); }
+        .star-silver { color: #c0c0c0; font-size: clamp(22px, 3.8vw, 27px); }
+        .star-gold { color: #ffd700; font-size: clamp(25px, 4.2vw, 30px); }
         .star-rainbow { 
-            font-size: 40px; 
+            font-size: clamp(28px, 4.8vw, 35px); 
             animation: rainbow 2s infinite linear, twinkle 1.5s infinite alternate; 
         }
         
@@ -141,54 +142,73 @@
         }
         
         .bomb {
-            font-size: 25px;
+            font-size: clamp(18px, 3vw, 22px);
             animation: rotate 2s infinite linear;
         }
         
         .blackhole {
-            font-size: 28px;
+            font-size: clamp(20px, 3.5vw, 25px);
             animation: blackholeRotate 3s infinite ease-in-out, blackholePulse 1.5s infinite alternate;
         }
         
         .lightning {
-            font-size: 22px;
+            font-size: clamp(16px, 2.8vw, 20px);
             animation: lightningZigzag 2s infinite linear, lightningGlow 0.5s infinite alternate;
         }
         
         .powerup {
             position: absolute;
-            font-size: 30px;
+            font-size: clamp(22px, 3.8vw, 28px);
             cursor: pointer;
             animation: pulse 1s infinite alternate;
         }
         
         #player {
             position: absolute;
-            font-size: 40px;
+            font-size: clamp(25px, 4.5vw, 35px);
             pointer-events: none;
             z-index: 10;
         }
         
         .player-shield {
-            box-shadow: 0 0 20px #2196f3;
+            box-shadow: 0 0 15px #2196f3;
             animation: shieldGlow 1s infinite alternate;
         }
         
         #gameOver, #stageComplete, #levelComplete {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
-            border-radius: 15px;
+            padding: 0;
+            border-radius: 12px;
             text-align: center;
             border: 2px solid #ffeb3b;
             display: none;
-            z-index: 100;
+            z-index: 1000;
             max-height: 90vh;
-            max-width: 90vw;
+            max-width: 95vw;
+            min-width: 280px;
+            font-size: clamp(11px, 2vw, 14px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .popup-content {
+            padding: clamp(15px, 4vw, 25px);
             overflow-y: auto;
+            flex-grow: 1;
+            max-height: calc(90vh - 80px);
+        }
+        
+        .popup-buttons {
+            padding: clamp(10px, 3vw, 20px);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            border-radius: 0 0 10px 10px;
+            flex-shrink: 0;
         }
         
         #stageComplete { border-color: #4caf50; }
@@ -198,13 +218,14 @@
             background: #4caf50;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px);
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 8px;
+            font-size: clamp(11px, 2vw, 14px);
+            margin: clamp(3px, 1vw, 6px);
             transition: background 0.3s;
-            min-height: 44px;
+            min-height: 36px;
+            box-sizing: border-box;
         }
         
         button:hover { background: #45a049; }
@@ -220,13 +241,13 @@
         .points-text, .combo-text {
             position: absolute;
             font-weight: bold;
-            font-size: 18px;
+            font-size: clamp(12px, 2.5vw, 16px);
             pointer-events: none;
             animation: floatUp 1s ease-out forwards;
             z-index: 50;
         }
         
-        .combo-text { color: #4caf50; font-size: 20px; }
+        .combo-text { color: #4caf50; font-size: clamp(14px, 3vw, 18px); }
         .points-text { color: #ffeb3b; }
         
         @keyframes rainbow {
@@ -284,18 +305,75 @@
         }
         
         @media (max-width: 768px) {
-            body { padding: 5px; }
+            body { 
+                padding: 3px; 
+            }
+            
             #gameContainer {
-                height: calc(100vh - 150px);
-                border-width: 2px;
+                height: calc(100vh - 140px);
+                border-width: 1px;
+                min-height: 250px;
             }
+            
             .info-section {
-                min-width: 80px;
-                font-size: 11px;
+                min-width: 70px;
+                font-size: 9px;
             }
+            
             #gameInfo {
-                flex-direction: column;
-                gap: 5px;
+                flex-direction: row;
+                gap: 3px;
+                padding: 4px;
+            }
+            
+            #globalLevel {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            
+            #stageInfo {
+                padding: 6px;
+            }
+            
+            #legend {
+                gap: 3px;
+                font-size: 8px;
+                padding: 4px;
+            }
+            
+            button {
+                font-size: 11px;
+                padding: 6px 10px;
+                margin: 3px;
+                min-height: 32px;
+            }
+            
+            #gameOver, #stageComplete, #levelComplete {
+                padding: 10px;
+                font-size: 10px;
+                max-width: 98vw;
+                margin: 1vw;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #gameContainer {
+                height: calc(100vh - 120px);
+                min-height: 200px;
+            }
+            
+            #gameInfo .info-section {
+                min-width: 60px;
+                font-size: 8px;
+            }
+            
+            #legend {
+                font-size: 7px;
+                gap: 2px;
+            }
+            
+            .legend-item {
+                margin: 1px;
             }
         }
     </style>
@@ -317,7 +395,7 @@
         <div class="legend-item" id="doubleLegend" style="opacity: 0.5;">💎 כפול (רמה 4+)</div>
         <div class="legend-item" style="color: #f44336;">💥 פצצה</div>
         <div class="legend-item" style="color: #9c27b0;">🕳️ חור שחור</div>
-        <div class="legend-item" style="color: #ff5722;">⚡ זיק</div>
+        <div class="legend-item" style="color: #ff5722;">🌩️ זיק</div>
     </div>
     
     <div id="stageInfo">
@@ -348,54 +426,66 @@
     <div id="gameContainer">
         <div id="player">🎯</div>
         
-        <div id="gameOver">
-            <h2>נכשלת בשלב!</h2>
-            <p>ניקוד: <span id="failScore">0</span> מתוך <span id="failTarget">0</span></p>
-            <button class="retry-btn" onclick="retryStage()">נסה שוב</button>
-            <button onclick="restartGame()">התחל מחדש</button>
+        <div id="gameOver" style="display: none;">
+            <div class="popup-content">
+                <h2>נכשלת בשלב!</h2>
+                <p>ניקוד: <span id="failScore">0</span> מתוך <span id="failTarget">0</span></p>
+            </div>
+            <div class="popup-buttons">
+                <button class="retry-btn" onclick="retryStage()">נסה שוב</button>
+                <button onclick="restartGame()">התחל מחדש</button>
+            </div>
         </div>
         
-        <div id="stageComplete">
-            <h2>🎉 כל הכבוד! עברת את השלב! 🎉</h2>
-            <p>שלב <span id="completedStage">1</span> - <span id="completedStageName">התחלה</span> הושלם!</p>
-            
-            <div style="background: rgba(76,175,80,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                <h3>📊 סטטיסטיקות השלב:</h3>
-                <p>🎯 ניקוד השלב: <span id="stageScore">0</span> נקודות</p>
-                <p>⏱️ זמן השלב: <span id="stageTime">0</span> שניות</p>
-                <p>🔥 קומבו מקסימלי: <span id="stageMaxCombo">1</span></p>
-                <p>⭐ כוכבים שנתפסו: <span id="starsCaught">0</span></p>
-                <p>💥 פצצות שנמנעו: <span id="bombsAvoided">0</span></p>
-                <p>🕳️ חורים שחורים שנמנעו: <span id="blackholesAvoided">0</span></p>
-                <p>⚡ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
-            </div>
-            
-            <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                <h3>📈 התקדמות ברמה הגלובלית:</h3>
-                <p>📊 סה"כ נקודות ברמה: <span id="levelScore">0</span></p>
-                <p>🎮 שלבים שהושלמו: <span id="completedStages">0</span>/20</p>
-                <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; margin: 10px 0;">
-                    <div id="levelProgressFill" style="height: 100%; background: linear-gradient(90deg, #ff9800, #ffc107); border-radius: 10px; transition: width 0.3s; position: relative;">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="levelProgressText"></div>
+        <div id="stageComplete" style="display: none;">
+            <div class="popup-content">
+                <h2>🎉 כל הכבוד! עברת את השלב! 🎉</h2>
+                <p>שלב <span id="completedStage">1</span> - <span id="completedStageName">התחלה</span> הושלם!</p>
+                
+                <div style="background: rgba(76,175,80,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <h3>📊 סטטיסטיקות השלב:</h3>
+                    <p>🎯 ניקוד השלב: <span id="stageScore">0</span> נקודות</p>
+                    <p>⏱️ זמן השלב: <span id="stageTime">0</span> שניות</p>
+                    <p>🔥 קומבו מקסימלי: <span id="stageMaxCombo">1</span></p>
+                    <p>⭐ כוכבים שנתפסו: <span id="starsCaught">0</span></p>
+                    <p>💥 פצצות שנמנעו: <span id="bombsAvoided">0</span></p>
+                    <p>🕳️ חורים שחורים שנמנעו: <span id="blackholesAvoided">0</span></p>
+                    <p>🌩️ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
+                </div>
+                
+                <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <h3>📈 התקדמות ברמה הגלובלית:</h3>
+                    <p>📊 סה"כ נקודות ברמה: <span id="levelScore">0</span></p>
+                    <p>🎮 שלבים שהושלמו: <span id="completedStages">0</span>/20</p>
+                    <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; margin: 10px 0;">
+                        <div id="levelProgressFill" style="height: 100%; background: linear-gradient(90deg, #ff9800, #ffc107); border-radius: 10px; transition: width 0.3s; position: relative;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="levelProgressText"></div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                <button onclick="nextStage()" style="background: linear-gradient(45deg, #4caf50, #8bc34a); font-size: 18px; padding: 15px 30px;">
-                    <span id="nextStageText">שלב הבא →</span>
-                </button>
-                <button onclick="retryStage()" class="retry-btn">נסה שלב זה שוב</button>
+            <div class="popup-buttons">
+                <div style="display: flex; gap: clamp(5px, 2vw, 10px); justify-content: center; flex-wrap: wrap;">
+                    <button onclick="nextStage()" style="background: linear-gradient(45deg, #4caf50, #8bc34a); font-size: clamp(12px, 2.5vw, 16px); padding: clamp(10px, 2.5vw, 15px) clamp(15px, 4vw, 25px); flex: 1; min-width: 120px; max-width: 200px;">
+                        <span id="nextStageText">שלב הבא →</span>
+                    </button>
+                    <button onclick="retryStage()" class="retry-btn" style="flex: 1; min-width: 120px; max-width: 180px;">נסה שלב זה שוב</button>
+                </div>
             </div>
         </div>
         
-        <div id="levelComplete">
-            <h2>🎉 מזל טוב! עליתי רמה גלובלית! 🎉</h2>
-            <p>סיימת רמה <span id="completedLevel">1</span>!</p>
-            <p>עליתי לרמה <span id="newLevel">2</span>!</p>
-            <p>מכפיל חדש: x<span id="newMultiplier">2</span></p>
-            <p>פאוור-אפים חדשים נפתחו!</p>
-            <button class="mega-btn" onclick="nextLevel()">התחל רמה חדשה!</button>
+        <div id="levelComplete" style="display: none;">
+            <div class="popup-content">
+                <h2>🎉 מזל טוב! עליתי רמה גלובלית! 🎉</h2>
+                <p>סיימת רמה <span id="completedLevel">1</span>!</p>
+                <p>עליתי לרמה <span id="newLevel">2</span>!</p>
+                <p>מכפיל חדש: x<span id="newMultiplier">2</span></p>
+                <p>פאוור-אפים חדשים נפתחו!</p>
+            </div>
+            <div class="popup-buttons">
+                <button class="mega-btn" onclick="nextLevel()">התחל רמה חדשה!</button>
+            </div>
         </div>
     </div>
 
@@ -568,7 +658,7 @@
                 } else {
                     objectType = 'lightning';
                     object.className = 'lightning';
-                    object.textContent = '⚡';
+                    object.textContent = '🌩️';
                     object.dataset.speed = Math.random() > 0.5 ? 'fast' : 'normal';
                 }
             } else {
@@ -924,18 +1014,18 @@
                     
                     setTimeout(() => {
                         document.getElementById('stageComplete').style.display = 'none';
-                        document.getElementById('levelComplete').style.display = 'block';
+                        document.getElementById('levelComplete').style.display = 'flex';
                     }, 3000);
                 } else {
                     document.getElementById('nextStageText').textContent = `שלב ${currentStage + 1}: ${stageNames[currentStage]} →`;
                 }
                 
-                document.getElementById('stageComplete').style.display = 'block';
+                document.getElementById('stageComplete').style.display = 'flex';
             } else {
                 const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
                 document.getElementById('failScore').textContent = score;
                 document.getElementById('failTarget').textContent = target;
-                document.getElementById('gameOver').style.display = 'block';
+                document.getElementById('gameOver').style.display = 'flex';
             }
         }
         
