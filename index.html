@@ -15,8 +15,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
         
         #gameContainer {
@@ -31,324 +29,373 @@
             overflow: hidden;
             cursor: crosshair;
             flex-grow: 1;
-            max-width: 900px;
-            margin: auto;
         }
         
         #gameInfo {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 10px 0;
-            max-width: 900px;
-        }
-        
-        .info-panel {
-            background-color: rgba(0, 0, 0, 0.4);
-            padding: 8px 15px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
             border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 1.1em;
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 10px;
         }
-
-        .info-panel span {
+        
+        .info-section {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        #globalLevel {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 8px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px rgba(255,107,53,0.5);
         }
         
-        #progress {
+        #stageInfo {
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            border: 2px solid #4caf50;
+        }
+        
+        #legend {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-size: 11px;
+            opacity: 0.9;
+            flex-wrap: wrap;
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            border-radius: 8px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .progress-bar {
             width: 100%;
-            height: 25px;
-            background-color: #333;
-            border-radius: 12px;
-            border: 1px solid #555;
-            position: relative;
-            margin-top: 5px;
+            height: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
         }
         
-        #progressFill {
+        .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #4caf50, #8bc34a);
-            border-radius: 12px;
-            transition: width 0.3s ease-in-out;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            position: relative;
         }
         
-        #progressText {
+        .progress-text {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 0.9em;
-            text-shadow: 1px 1px 2px #000;
-        }
-        
-        .falling-object {
-            position: absolute;
-            font-size: 2.5em;
-            user-select: none;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        
-        .falling-object:hover {
-            transform: scale(1.2);
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
         
         .star {
-            color: yellow;
+            position: absolute;
+            font-size: 30px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            animation: twinkle 1.5s infinite alternate;
         }
         
-        .star-blue {
-            color: #4dd0e1;
+        .star-regular { color: #ffeb3b; }
+        .star-blue { color: #4169e1; font-size: 28px; }
+        .star-silver { color: #c0c0c0; font-size: 32px; }
+        .star-gold { color: #ffd700; font-size: 35px; }
+        .star-rainbow { 
+            font-size: 40px; 
+            animation: rainbow 2s infinite linear, twinkle 1.5s infinite alternate; 
         }
         
-        .star-silver {
-            color: #bdbdbd;
-        }
-        
-        .star-gold {
-            color: #ffc107;
-        }
-        
-        .star-rainbow {
-            text-shadow: 0 0 5px #fff, 0 0 10px #f00, 0 0 15px #0f0, 0 0 20px #00f, 0 0 25px #ff0, 0 0 30px #0ff, 0 0 35px #f0f;
-            animation: pulse 1s infinite alternate;
+        .bomb, .blackhole, .lightning {
+            position: absolute;
+            cursor: pointer;
         }
         
         .bomb {
-            color: #f44336;
+            font-size: 25px;
+            animation: rotate 2s infinite linear;
         }
         
         .blackhole {
-            color: #212121;
-            filter: drop-shadow(0 0 10px #000);
+            font-size: 28px;
+            animation: blackholeRotate 3s infinite ease-in-out, blackholePulse 1.5s infinite alternate;
         }
         
         .lightning {
-            color: #ffeb3b;
+            font-size: 22px;
+            animation: lightningZigzag 2s infinite linear, lightningGlow 0.5s infinite alternate;
         }
-
+        
         .powerup {
-            font-size: 2.2em;
+            position: absolute;
+            font-size: 30px;
+            cursor: pointer;
+            animation: pulse 1s infinite alternate;
         }
         
-        .player {
+        #player {
             position: absolute;
-            font-size: 2.5em;
-            transition: transform 0.1s;
-        }
-
-        .player-shield {
-            animation: shield-pulse 1s infinite;
-            border: 2px solid cyan;
-            border-radius: 50%;
-            padding: 5px;
-            margin: -5px;
-        }
-
-        @keyframes shield-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 255, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0); }
-        }
-
-        .points-text, .combo-text {
-            position: absolute;
-            font-weight: bold;
-            animation: fade-up 1s forwards;
+            font-size: 40px;
             pointer-events: none;
-            white-space: nowrap;
+            z-index: 10;
         }
         
-        .points-text {
-            color: #ffeb3b;
+        .player-shield {
+            box-shadow: 0 0 20px #2196f3;
+            animation: shieldGlow 1s infinite alternate;
         }
         
-        .combo-text {
-            color: #4caf50;
-            font-size: 1.2em;
-        }
-        
-        @keyframes fade-up {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-        }
-        
-        #modal {
+        #gameOver, #stageComplete, #levelComplete {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.95);
             padding: 30px;
             border-radius: 15px;
             text-align: center;
+            border: 2px solid #ffeb3b;
+            display: none;
             z-index: 100;
-            width: 80%;
-            max-width: 400px;
+            max-height: 90vh;
+            max-width: 90vw;
+            overflow-y: auto;
         }
         
-        #modal h2 {
-            font-size: 2em;
-            margin-top: 0;
-        }
-
-        #modal p {
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
-
-        #modal button {
-            background-color: #4caf50;
+        #stageComplete { border-color: #4caf50; }
+        #levelComplete { border-color: #ff6b35; }
+        
+        button {
+            background: #4caf50;
             color: white;
             border: none;
-            padding: 15px 25px;
-            font-size: 1.1em;
+            padding: 12px 24px;
             border-radius: 8px;
             cursor: pointer;
-            margin: 10px;
-            transition: background-color 0.3s;
+            font-size: 16px;
+            margin: 8px;
+            transition: background 0.3s;
+            min-height: 44px;
         }
         
-        #modal button:hover {
-            background-color: #45a049;
+        button:hover { background: #45a049; }
+        
+        .retry-btn { background: #ff9800; }
+        .retry-btn:hover { background: #f57c00; }
+        
+        .mega-btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            font-weight: bold;
         }
         
-        #stageComplete, #gameOver, #levelComplete {
-            display: none;
+        .points-text, .combo-text {
+            position: absolute;
+            font-weight: bold;
+            font-size: 18px;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            z-index: 50;
         }
-
-        .legend {
-            font-size: 0.9em;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 5px;
+        
+        .combo-text { color: #4caf50; font-size: 20px; }
+        .points-text { color: #ffeb3b; }
+        
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
-
-        .legend span {
-            display: inline-block;
-            margin-right: 15px;
+        
+        @keyframes twinkle {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
         }
-
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
         @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
-
-        /* Responsive design */
-        @media (max-width: 600px) {
+        
+        @keyframes blackholeRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        @keyframes blackholePulse {
+            0% { filter: brightness(0.8) hue-rotate(0deg); }
+            100% { filter: brightness(1.2) hue-rotate(20deg); }
+        }
+        
+        @keyframes lightningZigzag {
+            0% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(3px) rotate(5deg); }
+            50% { transform: translateX(-3px) rotate(-5deg); }
+            75% { transform: translateX(2px) rotate(3deg); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+        
+        @keyframes lightningGlow {
+            0% { filter: brightness(1) drop-shadow(0 0 5px #ff5722); }
+            100% { filter: brightness(1.3) drop-shadow(0 0 10px #ff9800); }
+        }
+        
+        @keyframes shieldGlow {
+            0% { box-shadow: 0 0 20px #2196f3; }
+            100% { box-shadow: 0 0 30px #64b5f6; }
+        }
+        
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-40px); }
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 5px; }
+            #gameContainer {
+                height: calc(100vh - 150px);
+                border-width: 2px;
+            }
+            .info-section {
+                min-width: 80px;
+                font-size: 11px;
+            }
             #gameInfo {
                 flex-direction: column;
-                gap: 10px;
-            }
-            .info-panel {
-                width: 100%;
-                justify-content: center;
-            }
-            .info-panel:first-child, .info-panel:last-child {
-                display: none;
-            }
-            #modal {
-                width: 95%;
+                gap: 5px;
             }
         }
     </style>
 </head>
 <body>
+    <div id="globalLevel">רמה גלובלית: 1 (מכפיל נקודות: x1)</div>
+    
+    <div id="legend">
+        <div class="legend-item">⭐ רגיל (5×רמה)</div>
+        <div class="legend-item">🌟 כחול (10×רמה)</div>
+        <div class="legend-item">💫 כסף (20×רמה)</div>
+        <div class="legend-item">🌠 זהב (50×רמה)</div>
+        <div class="legend-item">🎆 קשת (100×רמה)</div>
+        <div class="legend-item">🛡️ מגן</div>
+        <div class="legend-item">❤️ חיים</div>
+        <div class="legend-item">⚡ מהירות</div>
+        <div class="legend-item" id="freezeLegend" style="opacity: 0.5;">❄️ הקפאה (רמה 2+)</div>
+        <div class="legend-item" id="magnetLegend" style="opacity: 0.5;">🧲 מגנט (רמה 3+)</div>
+        <div class="legend-item" id="doubleLegend" style="opacity: 0.5;">💎 כפול (רמה 4+)</div>
+        <div class="legend-item" style="color: #f44336;">💥 פצצה</div>
+        <div class="legend-item" style="color: #9c27b0;">🕳️ חור שחור</div>
+        <div class="legend-item" style="color: #ff5722;">⚡ זיק</div>
+    </div>
+    
+    <div id="stageInfo">
+        <div id="stageTitle">שלב 1: התחלה</div>
+        <div id="stageGoal">יעד: 100 נקודות</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%">
+                <div class="progress-text" id="progressText">0 / 100</div>
+            </div>
+        </div>
+    </div>
+    
     <div id="gameInfo">
-        <div class="info-panel" id="scorePanel">
-            ניקוד: <span id="score">0</span>
+        <div class="info-section">
+            <div>נקודות: <span id="score">0</span></div>
+            <div>קומבו: <span id="combo">x1</span></div>
         </div>
-        <div class="info-panel" id="comboPanel">
-            קומבו: <span id="combo">x1</span>
+        <div class="info-section">
+            <div>חיים: <span id="lives">3</span></div>
+            <div>שלב: <span id="stageNum">1</span>/20</div>
         </div>
-        <div class="info-panel" id="livesPanel">
-            חיים: <span id="lives">3</span> ❤️
+        <div class="info-section">
+            <div>מגן: <span id="shield">0</span></div>
+            <div>מיוחד: <span id="special">אין</span></div>
         </div>
     </div>
     
     <div id="gameContainer">
-        <div id="player" class="player">🎯</div>
-        <div id="modal" style="display: block;">
-            <h2 id="stageTitle">תפוס את הכוכבים!</h2>
-            <p id="stageGoal">יעד: 100 נקודות</p>
-            <p id="globalLevel">רמה גלובלית: 1 (מכפיל נקודות: x1)</p>
-            <p id="stageNum">1/20</p>
-            <button onclick="startStage(1)">התחל משחק</button>
-            <div id="progress">
-                <div id="progressFill"></div>
-                <div id="progressText">0 / 100</div>
-            </div>
-            <div class="legend">
-                <span>🛡️: מגן</span>
-                <span>❤️: חיים</span>
-                <span>⚡: מהירות</span>
-                <span id="freezeLegend">❄️: הקפאה (רמה 2)</span>
-                <span id="magnetLegend">🧲: מגנט (רמה 3)</span>
-                <span id="doubleLegend">💎: ניקוד כפול (רמה 4)</span>
-            </div>
-        </div>
-
-        <div id="stageComplete" class="modal">
-            <h2>שלב הושלם!</h2>
-            <p>שלב <span id="completedStage">1</span>: <span id="completedStageName">התחלה</span></p>
-            <p>ניקוד בשלב: <span id="stageScore">0</span></p>
-            <p>זמן: <span id="stageTime">0</span> שניות</p>
-            <p>קומבו מקסימלי: <span id="stageMaxCombo">x1</span></p>
-            <p>כוכבים שנתפסו: <span id="starsCaught">0</span></p>
-            <div class="legend-stats">
-                <p>אויבים שהוחמצו:</p>
-                <span>💥: <span id="bombsAvoided">0</span></span>
-                <span>🕳️: <span id="blackholesAvoided">0</span></span>
-                <span>⛈️: <span id="lightningAvoided">0</span></span>
-            </div>
-            <button onclick="checkLevelUp()" id="nextStageText">שלב הבא →</button>
-        </div>
-
-        <div id="gameOver" class="modal">
-            <h2>נגמרו החיים!</h2>
-            <p>ניקוד: <span id="failScore">0</span></p>
-            <p>יעד: <span id="failTarget">0</span></p>
-            <button onclick="retryStage()">נסה שוב</button>
+        <div id="player">🎯</div>
+        
+        <div id="gameOver">
+            <h2>נכשלת בשלב!</h2>
+            <p>ניקוד: <span id="failScore">0</span> מתוך <span id="failTarget">0</span></p>
+            <button class="retry-btn" onclick="retryStage()">נסה שוב</button>
             <button onclick="restartGame()">התחל מחדש</button>
         </div>
-
-        <div id="levelComplete" class="modal">
-            <h2>רמה הושלמה!</h2>
-            <p>ברכות! סיימת את רמה <span id="completedLevel">1</span>!</p>
-            <p>עלית לרמה <span id="newLevel">2</span>.</p>
-            <p>מכפיל הנקודות שלך הוא כעת: x<span id="newMultiplier">2</span></p>
-            <button onclick="nextLevel()">התחל רמה חדשה</button>
-        </div>
-    </div>
-
-    <div id="gameStats">
-        <div class="info-panel" id="stageProgressPanel">
-            התקדמות שלב: <span id="stageNum">1/20</span>
-            <div id="progress" style="width: 150px; margin: 0 10px;">
-                <div id="progressFill"></div>
-                <div id="progressText">0 / 100</div>
+        
+        <div id="stageComplete">
+            <h2>🎉 כל הכבוד! עברת את השלב! 🎉</h2>
+            <p>שלב <span id="completedStage">1</span> - <span id="completedStageName">התחלה</span> הושלם!</p>
+            
+            <div style="background: rgba(76,175,80,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                <h3>📊 סטטיסטיקות השלב:</h3>
+                <p>🎯 ניקוד השלב: <span id="stageScore">0</span> נקודות</p>
+                <p>⏱️ זמן השלב: <span id="stageTime">0</span> שניות</p>
+                <p>🔥 קומבו מקסימלי: <span id="stageMaxCombo">1</span></p>
+                <p>⭐ כוכבים שנתפסו: <span id="starsCaught">0</span></p>
+                <p>💥 פצצות שנמנעו: <span id="bombsAvoided">0</span></p>
+                <p>🕳️ חורים שחורים שנמנעו: <span id="blackholesAvoided">0</span></p>
+                <p>⚡ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
+            </div>
+            
+            <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                <h3>📈 התקדמות ברמה הגלובלית:</h3>
+                <p>📊 סה"כ נקודות ברמה: <span id="levelScore">0</span></p>
+                <p>🎮 שלבים שהושלמו: <span id="completedStages">0</span>/20</p>
+                <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; margin: 10px 0;">
+                    <div id="levelProgressFill" style="height: 100%; background: linear-gradient(90deg, #ff9800, #ffc107); border-radius: 10px; transition: width 0.3s; position: relative;">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="levelProgressText"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                <button onclick="nextStage()" style="background: linear-gradient(45deg, #4caf50, #8bc34a); font-size: 18px; padding: 15px 30px;">
+                    <span id="nextStageText">שלב הבא →</span>
+                </button>
+                <button onclick="retryStage()" class="retry-btn">נסה שלב זה שוב</button>
             </div>
         </div>
-        <div class="info-panel" id="levelProgressPanel">
-            התקדמות רמה: <span id="completedStages">0/20</span>
-            <div id="progress" style="width: 150px; margin: 0 10px;">
-                <div id="levelProgressFill"></div>
-                <div id="levelProgressText">0/20</div>
-            </div>
-        </div>
-        <div class="info-panel" id="specialStatusPanel">
-            סטטוס מיוחד: <span id="special">אין</span>
+        
+        <div id="levelComplete">
+            <h2>🎉 מזל טוב! עליתי רמה גלובלית! 🎉</h2>
+            <p>סיימת רמה <span id="completedLevel">1</span>!</p>
+            <p>עליתי לרמה <span id="newLevel">2</span>!</p>
+            <p>מכפיל חדש: x<span id="newMultiplier">2</span></p>
+            <p>פאוור-אפים חדשים נפתחו!</p>
+            <button class="mega-btn" onclick="nextLevel()">התחל רמה חדשה!</button>
         </div>
     </div>
 
@@ -371,19 +418,13 @@
         let magnetTime = 0;
         let doublePointsTime = 0;
         let lastStarType = null;
-        let stageStartTime = 0;
-        
-        // Stage stats
+        let stageStartTime = Date.now();
+        let levelStartTime = Date.now();
         let starsCaught = 0;
         let bombsAvoided = 0;
         let blackholesAvoided = 0;
         let lightningAvoided = 0;
-        
-        // Level stats
         let levelStarsCaught = 0;
-
-        let gameInterval;
-        let timerInterval;
         
         const baseStageTargets = [
             100, 150, 200, 280, 370, 480, 600, 750, 920, 1120,
@@ -406,26 +447,28 @@
         ];
         
         const powerupTypes = [
-            { emoji: '🛡️', type: 'shield', chance: 0.04, minLevel: 1 },
-            { emoji: '❤️', type: 'life', chance: 0.03, minLevel: 1 },
-            { emoji: '⚡', type: 'speed', chance: 0.04, minLevel: 1 },
-            { emoji: '❄️', type: 'freeze', chance: 0.02, minLevel: 2 },
-            { emoji: '🧲', type: 'magnet', chance: 0.02, minLevel: 3 },
-            { emoji: '💎', type: 'double', chance: 0.02, minLevel: 4 }
+            { emoji: '🛡️', type: 'shield', chance: 0.04 },
+            { emoji: '❤️', type: 'life', chance: 0.03 },
+            { emoji: '⚡', type: 'speed', chance: 0.04 },
+            { emoji: '❄️', type: 'freeze', chance: 0.02 },
+            { emoji: '🧲', type: 'magnet', chance: 0.02 },
+            { emoji: '💎', type: 'double', chance: 0.02 }
         ];
         
         const gameContainer = document.getElementById('gameContainer');
         const player = document.getElementById('player');
         
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
+        let mouseX = 0;
+        let mouseY = 0;
         
+        // עדכון מיקום השחקן
         function updatePlayerPosition(clientX, clientY) {
             if (!gameRunning) return;
             const rect = gameContainer.getBoundingClientRect();
             mouseX = clientX - rect.left;
             mouseY = clientY - rect.top;
             
+            // ודא שהשחקן נשאר בגבולות
             mouseX = Math.max(20, Math.min(rect.width - 20, mouseX));
             mouseY = Math.max(20, Math.min(rect.height - 20, mouseY));
             
@@ -433,14 +476,22 @@
             player.style.top = (mouseY - 20) + 'px';
         }
         
-        gameContainer.addEventListener('mousemove', (e) => updatePlayerPosition(e.clientX, e.clientY));
+        gameContainer.addEventListener('mousemove', (e) => {
+            updatePlayerPosition(e.clientX, e.clientY);
+        });
+        
         gameContainer.addEventListener('touchmove', (e) => {
             e.preventDefault();
-            if (e.touches.length > 0) updatePlayerPosition(e.touches[0].clientX, e.touches[0].clientY);
+            if (e.touches.length > 0) {
+                updatePlayerPosition(e.touches[0].clientX, e.touches[0].clientY);
+            }
         });
+        
         gameContainer.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            if (e.touches.length > 0) updatePlayerPosition(e.touches[0].clientX, e.touches[0].clientY);
+            if (e.touches.length > 0) {
+                updatePlayerPosition(e.touches[0].clientX, e.touches[0].clientY);
+            }
         });
         
         function getStarTypes() {
@@ -462,11 +513,11 @@
         }
         
         function getRandomPowerup() {
-            const availablePowerups = powerupTypes.filter(p => globalLevel >= p.minLevel);
-            if (availablePowerups.length === 0) return null;
+            const availablePowerups = powerupTypes.filter(p => 
+                globalLevel >= Math.ceil(powerupTypes.indexOf(p) / 2)
+            );
             
-            const totalChance = availablePowerups.reduce((sum, p) => sum + p.chance, 0);
-            const random = Math.random() * totalChance;
+            const random = Math.random();
             let cumulative = 0;
             for (let powerup of availablePowerups) {
                 cumulative += powerup.chance;
@@ -484,7 +535,9 @@
             gameContainer.appendChild(element);
             
             setTimeout(() => {
-                if (element.parentNode) element.remove();
+                if (element.parentNode) {
+                    element.remove();
+                }
             }, 1000);
         }
         
@@ -498,23 +551,24 @@
             const totalThreatChance = bombChance * 1.5;
             const bombChanceActual = bombChance * 0.6;
             const blackholeChance = bombChance * 0.25;
+            const lightningChance = bombChance * 0.15;
             
             if (random < totalThreatChance) {
                 const threatRandom = Math.random();
                 
                 if (threatRandom < (bombChanceActual / totalThreatChance)) {
                     objectType = 'bomb';
-                    object.className = 'bomb falling-object';
+                    object.className = 'bomb';
                     object.textContent = '💥';
                 } else if (threatRandom < ((bombChanceActual + blackholeChance) / totalThreatChance)) {
                     objectType = 'blackhole';
-                    object.className = 'blackhole falling-object';
+                    object.className = 'blackhole';
                     object.textContent = '🕳️';
                     object.dataset.pullRadius = '80';
                 } else {
                     objectType = 'lightning';
-                    object.className = 'lightning falling-object';
-                    object.textContent = '⛈️';
+                    object.className = 'lightning';
+                    object.textContent = '⚡';
                     object.dataset.speed = Math.random() > 0.5 ? 'fast' : 'normal';
                 }
             } else {
@@ -524,16 +578,15 @@
                 
                 if (powerup && powerupCheck < (0.08 * powerupMultiplier)) {
                     objectType = 'powerup';
-                    object.className = 'powerup falling-object';
+                    object.className = 'powerup';
                     object.textContent = powerup.emoji;
                     object.dataset.powerupType = powerup.type;
                 } else {
                     const starType = getRandomStarType();
-                    object.className = `star ${starType.class} falling-object`;
+                    object.className = `star ${starType.class}`;
                     object.textContent = starType.emoji;
                     object.dataset.points = starType.points;
                     object.dataset.starType = starType.emoji;
-                    objectType = 'star';
                 }
             }
             
@@ -554,11 +607,17 @@
                 }
                 
                 const currentTop = parseInt(object.style.top) || 0;
-                let fallSpeed = speedBoostTime > 0 ? starSpeed * 1.5 : starSpeed;
+                let fallSpeed = speedBoostTime > 0 ? starSpeed * 0.6 : starSpeed;
                 
-                if (freezeTime > 0) fallSpeed *= 0.3;
-                if (objectType === 'lightning' && object.dataset.speed === 'fast') fallSpeed *= 1.5;
+                if (freezeTime > 0) {
+                    fallSpeed *= 0.3;
+                }
                 
+                if (objectType === 'lightning' && object.dataset.speed === 'fast') {
+                    fallSpeed *= 1.5;
+                }
+                
+                // חור שחור משוך כוכבים ושחקן
                 if (objectType === 'blackhole') {
                     const pullRadius = parseInt(object.dataset.pullRadius) || 80;
                     const blackholeX = parseInt(object.style.left) + 15;
@@ -567,8 +626,11 @@
                     const playerDistance = Math.sqrt(Math.pow(mouseX - blackholeX, 2) + Math.pow(mouseY - blackholeY, 2));
                     if (playerDistance < pullRadius) {
                         const pullStrength = (pullRadius - playerDistance) / pullRadius * 0.8;
-                        mouseX += (blackholeX - mouseX) * pullStrength;
-                        mouseY += (blackholeY - mouseY) * pullStrength;
+                        const pullX = (blackholeX - mouseX) * pullStrength;
+                        const pullY = (blackholeY - mouseY) * pullStrength;
+                        
+                        mouseX += pullX;
+                        mouseY += pullY;
                         
                         const containerRect = gameContainer.getBoundingClientRect();
                         mouseX = Math.max(20, Math.min(containerRect.width - 20, mouseX));
@@ -581,11 +643,13 @@
                 
                 if (object.dataset.magnetic === 'true') {
                     const currentLeft = parseInt(object.style.left) || 0;
-                    object.style.left = (currentLeft + ((mouseX - 20) - currentLeft) * 0.03) + 'px';
+                    const diff = mouseX - currentLeft;
+                    object.style.left = (currentLeft + (diff * 0.03)) + 'px';
                 }
                 
                 object.style.top = (currentTop + fallSpeed) + 'px';
                 
+                // בדיקת התנגשות
                 const objectRect = object.getBoundingClientRect();
                 const playerRect = player.getBoundingClientRect();
                 
@@ -593,14 +657,17 @@
                     objectRect.right > playerRect.left &&
                     objectRect.top < playerRect.bottom &&
                     objectRect.bottom > playerRect.top) {
+                    
                     handleCollision(object, objectType);
                     return;
                 }
                 
                 const containerRect = gameContainer.getBoundingClientRect();
                 if (currentTop > containerRect.height) {
-                    if (object.parentNode) object.remove();
-                    if (objectType === 'star') resetCombo();
+                    object.remove();
+                    if (objectType === 'star') {
+                        resetCombo();
+                    }
                     return;
                 }
                 
@@ -625,7 +692,9 @@
                     updateLives();
                     showFloatingText(x, y, 'בום!', 'points-text');
                     resetCombo();
-                    if (lives <= 0) endStage(false);
+                    if (lives <= 0) {
+                        endStage(false);
+                    }
                 }
             } else if (objectType === 'blackhole') {
                 if (shieldTime > 0) {
@@ -636,18 +705,26 @@
                     updateLives();
                     showFloatingText(x, y, 'נבלע!', 'points-text');
                     resetCombo();
-                    speedBoostTime = freezeTime = magnetTime = doublePointsTime = 0;
-                    if (lives <= 0) endStage(false);
+                    speedBoostTime = 0;
+                    freezeTime = 0;
+                    magnetTime = 0;
+                    doublePointsTime = 0;
+                    if (lives <= 0) {
+                        endStage(false);
+                    }
                 }
             } else if (objectType === 'lightning') {
                 if (shieldTime > 0) {
                     lightningAvoided++;
                     showFloatingText(x, y, 'הגנה!', 'combo-text');
                 } else {
-                    speedBoostTime = freezeTime = 0;
+                    speedBoostTime = 0;
+                    freezeTime = 0;
                     const containerRect = gameContainer.getBoundingClientRect();
-                    mouseX = Math.random() * (containerRect.width - 40) + 20;
-                    mouseY = Math.random() * (containerRect.height - 40) + 20;
+                    const newX = Math.random() * (containerRect.width - 40) + 20;
+                    const newY = Math.random() * (containerRect.height - 40) + 20;
+                    mouseX = newX;
+                    mouseY = newY;
                     player.style.left = (mouseX - 20) + 'px';
                     player.style.top = (mouseY - 20) + 'px';
                     showFloatingText(x, y, 'זעזוע!', 'points-text');
@@ -689,13 +766,13 @@
                 showFloatingText(x, y, `+${points}`, 'points-text');
             }
             
-            if (object.parentNode) object.remove();
+            object.remove();
         }
         
         function handlePowerup(type, x, y) {
             switch(type) {
                 case 'shield':
-                    shieldTime = 600; // 10 seconds
+                    shieldTime = 300;
                     player.classList.add('player-shield');
                     showFloatingText(x, y, 'מגן!', 'combo-text');
                     break;
@@ -705,19 +782,19 @@
                     showFloatingText(x, y, 'חיים!', 'combo-text');
                     break;
                 case 'speed':
-                    speedBoostTime = 480; // 8 seconds
+                    speedBoostTime = 300;
                     showFloatingText(x, y, 'מהירות!', 'combo-text');
                     break;
                 case 'freeze':
-                    freezeTime = 300; // 5 seconds
+                    freezeTime = 240;
                     showFloatingText(x, y, 'הקפאה!', 'combo-text');
                     break;
                 case 'magnet':
-                    magnetTime = 420; // 7 seconds
+                    magnetTime = 240;
                     showFloatingText(x, y, 'מגנט!', 'combo-text');
                     break;
                 case 'double':
-                    doublePointsTime = 420; // 7 seconds
+                    doublePointsTime = 180;
                     showFloatingText(x, y, 'נקודות x2!', 'combo-text');
                     break;
             }
@@ -735,251 +812,249 @@
         }
         
         function updateLives() {
-            document.getElementById('lives').textContent = Math.max(0, lives);
+            document.getElementById('lives').textContent = lives;
         }
         
         function updateCombo() {
             document.getElementById('combo').textContent = 'x' + combo;
+            document.getElementById('combo').style.color = combo > 1 ? '#4caf50' : '#fff';
         }
-
+        
+        function updateStageInfo() {
+            const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
+            const stageName = stageNames[currentStage - 1];
+            document.getElementById('stageTitle').textContent = `שלב ${currentStage}: ${stageName}`;
+            document.getElementById('stageGoal').textContent = `יעד: ${target} נקודות`;
+            document.getElementById('stageNum').textContent = currentStage;
+            updateProgress();
+        }
+        
         function updateProgress() {
             const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
             const progress = Math.min((score / target) * 100, 100);
             document.getElementById('progressFill').style.width = progress + '%';
             document.getElementById('progressText').textContent = `${score} / ${target}`;
         }
-
-        function updatePowerupTimers() {
-            if (shieldTime > 0) { shieldTime--; if (shieldTime === 0) player.classList.remove('player-shield'); }
-            if (speedBoostTime > 0) speedBoostTime--;
-            if (freezeTime > 0) freezeTime--;
-            if (magnetTime > 0) magnetTime--;
-            if (doublePointsTime > 0) doublePointsTime--;
-            updateSpecialStatus();
+        
+        function updateGlobalLevel() {
+            document.getElementById('globalLevel').textContent = 
+                `רמה גלובלית: ${globalLevel} (מכפיל נקודות: x${globalLevel})`;
         }
-
-        function updateSpecialStatus() {
-            let specialText = '';
-            if (shieldTime > 0) specialText += `🛡️(${Math.ceil(shieldTime / 60)}) `;
-            if (speedBoostTime > 0) specialText += `⚡(${Math.ceil(speedBoostTime / 60)}) `;
-            if (freezeTime > 0) specialText += `❄️(${Math.ceil(freezeTime / 60)}) `;
-            if (magnetTime > 0) specialText += `🧲(${Math.ceil(magnetTime / 60)}) `;
-            if (doublePointsTime > 0) specialText += `💎(${Math.ceil(doublePointsTime / 60)}) `;
-            document.getElementById('special').textContent = specialText.trim() || 'אין';
-        }
-
-        function updateLegends() {
-            document.getElementById('freezeLegend').style.opacity = globalLevel >= 2 ? '1' : '0.5';
-            document.getElementById('magnetLegend').style.opacity = globalLevel >= 3 ? '1' : '0.5';
-            document.getElementById('doubleLegend').style.opacity = globalLevel >= 4 ? '1' : '0.5';
-        }
-
-        function gameLoop() {
-            if (Math.random() < spawnRate) {
-                createFallingObject();
+        
+        function updateLegend() {
+            const freezeLegend = document.getElementById('freezeLegend');
+            const magnetLegend = document.getElementById('magnetLegend');
+            const doubleLegend = document.getElementById('doubleLegend');
+            
+            if (freezeLegend && globalLevel >= 2) {
+                freezeLegend.style.opacity = '1';
+                freezeLegend.style.color = '#00bcd4';
+            }
+            
+            if (magnetLegend && globalLevel >= 3) {
+                magnetLegend.style.opacity = '1';
+                magnetLegend.style.color = '#9c27b0';
+            }
+            
+            if (doubleLegend && globalLevel >= 4) {
+                doubleLegend.style.opacity = '1';
+                doubleLegend.style.color = '#e91e63';
             }
         }
-
-        function clearObjects() {
-            const objects = document.querySelectorAll('.falling-object, .points-text, .combo-text');
-            objects.forEach(obj => obj.remove());
-        }
-
-        // פונקציות לשמירה וטעינה באמצעות Cookies
-        function saveGame() {
-            const gameState = {
-                globalLevel: globalLevel,
-                currentStage: currentStage,
-                lives: lives
-            };
-            setCookie('catchTheStarGameState', gameState, 30); // שמור ל-30 יום
-        }
-
-        function loadGame() {
-            const savedState = getCookie('catchTheStarGameState');
-            if (savedState) {
-                globalLevel = savedState.globalLevel;
-                currentStage = savedState.currentStage;
-                lives = savedState.lives;
+        
+        function updateSpecialEffects() {
+            let special = 'אין';
+            
+            if (doublePointsTime > 0) {
+                special = `כפול: ${Math.ceil(doublePointsTime/60)}`;
+                document.getElementById('special').style.color = '#e91e63';
+            } else if (magnetTime > 0) {
+                special = `מגנט: ${Math.ceil(magnetTime/60)}`;
+                document.getElementById('special').style.color = '#9c27b0';
+            } else if (freezeTime > 0) {
+                special = `הקפאה: ${Math.ceil(freezeTime/60)}`;
+                document.getElementById('special').style.color = '#00bcd4';
+            } else if (speedBoostTime > 0) {
+                special = `מהירות: ${Math.ceil(speedBoostTime/60)}`;
+                document.getElementById('special').style.color = '#ff9800';
+            } else {
+                document.getElementById('special').style.color = '#666';
             }
-            // עדכון הממשק
-            document.getElementById('globalLevel').textContent = `רמה גלובלית: ${globalLevel} (מכפיל נקודות: x${globalLevel})`;
-            document.getElementById('stageNum').textContent = `${currentStage}/20`;
-            document.getElementById('completedStages').textContent = `${currentStage}/20`;
-            const levelProgress = Math.min((currentStage / 20) * 100, 100);
-            document.getElementById('levelProgressFill').style.width = levelProgress + '%';
-            document.getElementById('levelProgressText').textContent = `${currentStage}/20`;
-
-            updateLives();
-            updateLegends();
-        }
-
-        // פונקציה לשמירת נתונים בעוגיה
-        function setCookie(name, value, days) {
-            const d = new Date();
-            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = name + "=" + encodeURIComponent(JSON.stringify(value)) + ";" + expires + ";path=/";
-        }
-
-        // פונקציה לקריאת נתונים מעוגיה
-        function getCookie(name) {
-            let cookieName = name + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(cookieName) == 0) {
-                    try {
-                        return JSON.parse(c.substring(cookieName.length, c.length));
-                    } catch (e) {
-                        console.error("Failed to parse cookie data", e);
-                        return null;
-                    }
-                }
+            
+            document.getElementById('special').textContent = special;
+            
+            if (shieldTime > 0) {
+                document.getElementById('shield').textContent = Math.ceil(shieldTime/60);
+                document.getElementById('shield').style.color = '#2196f3';
+            } else {
+                document.getElementById('shield').textContent = '0';
+                document.getElementById('shield').style.color = '#666';
+                player.classList.remove('player-shield');
             }
-            return null;
         }
-
-        function startStage(stage) {
-            document.getElementById('modal').style.display = 'none';
-
-            currentStage = stage;
-            score = 0;
-            combo = 1;
-            maxCombo = 1;
-            comboCount = 0;
-            shieldTime = speedBoostTime = freezeTime = magnetTime = doublePointsTime = 0;
-            starsCaught = bombsAvoided = blackholesAvoided = lightningAvoided = 0;
-            stageStartTime = Date.now();
-            
-            // Adjust difficulty
-            starSpeed = 2 + (currentStage * 0.1) + (globalLevel * 0.2);
-            spawnRate = 0.025 + (currentStage * 0.001) + (globalLevel * 0.002);
-            bombChance = 0.1 + (currentStage * 0.005) + (globalLevel * 0.01);
-
-            document.getElementById('gameOver').style.display = 'none';
-            document.getElementById('stageComplete').style.display = 'none';
-            document.getElementById('levelComplete').style.display = 'none';
-            
-            const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
-            document.getElementById('stageTitle').textContent = `שלב ${currentStage}: ${stageNames[currentStage - 1]}`;
-            document.getElementById('stageGoal').textContent = `יעד: ${target} נקודות`;
-            document.getElementById('stageNum').textContent = `${currentStage}/20`;
-            
-            updateScore();
-            updateLives();
-            updateCombo();
-            updateProgress();
-            updateSpecialStatus();
-            clearObjects();
-
-            gameRunning = true;
-            gameInterval = setInterval(gameLoop, 16); // ~60fps
-            timerInterval = setInterval(updatePowerupTimers, 1000 / 60);
-        }
-
-        function endStage(success) {
+        
+        function endStage(completed) {
             gameRunning = false;
-            clearInterval(gameInterval);
-            clearInterval(timerInterval);
-            clearObjects();
-
-            if (success) {
-                const stageTime = ((Date.now() - stageStartTime) / 1000).toFixed(1);
-
+            
+            if (completed) {
+                const stageTime = Math.floor((Date.now() - stageStartTime) / 1000);
+                const stageName = stageNames[currentStage - 1];
+                
                 document.getElementById('completedStage').textContent = currentStage;
-                document.getElementById('completedStageName').textContent = stageNames[currentStage - 1];
+                document.getElementById('completedStageName').textContent = stageName;
                 document.getElementById('stageScore').textContent = score;
                 document.getElementById('stageTime').textContent = stageTime;
-                document.getElementById('stageMaxCombo').textContent = 'x' + maxCombo;
+                document.getElementById('stageMaxCombo').textContent = maxCombo;
                 document.getElementById('starsCaught').textContent = starsCaught;
                 document.getElementById('bombsAvoided').textContent = bombsAvoided;
                 document.getElementById('blackholesAvoided').textContent = blackholesAvoided;
                 document.getElementById('lightningAvoided').textContent = lightningAvoided;
-
                 document.getElementById('levelScore').textContent = levelScore;
-                document.getElementById('completedStages').textContent = `${currentStage}/20`;
+                document.getElementById('completedStages').textContent = currentStage;
                 
-                const levelProgress = Math.min((currentStage / 20) * 100, 100);
+                const levelProgress = (currentStage / 20) * 100;
                 document.getElementById('levelProgressFill').style.width = levelProgress + '%';
-                document.getElementById('levelProgressText').textContent = `${currentStage}/20`;
-
+                document.getElementById('levelProgressText').textContent = `${currentStage}/20 שלבים`;
+                
                 if (currentStage >= 20) {
-                    document.getElementById('nextStageText').textContent = 'סיים רמה!';
+                    document.getElementById('nextStageText').textContent = 'עלה לרמה הבאה! 🚀';
+                    document.getElementById('completedLevel').textContent = globalLevel;
+                    document.getElementById('newLevel').textContent = globalLevel + 1;
+                    document.getElementById('newMultiplier').textContent = globalLevel + 1;
+                    
+                    setTimeout(() => {
+                        document.getElementById('stageComplete').style.display = 'none';
+                        document.getElementById('levelComplete').style.display = 'block';
+                    }, 3000);
                 } else {
-                    document.getElementById('nextStageText').textContent = 'שלב הבא →';
+                    document.getElementById('nextStageText').textContent = `שלב ${currentStage + 1}: ${stageNames[currentStage]} →`;
                 }
-
+                
                 document.getElementById('stageComplete').style.display = 'block';
-                saveGame();
             } else {
                 const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
                 document.getElementById('failScore').textContent = score;
                 document.getElementById('failTarget').textContent = target;
                 document.getElementById('gameOver').style.display = 'block';
-                saveGame();
-            }
-        }
-
-        function checkLevelUp() {
-            if (currentStage >= 20) {
-                document.getElementById('stageComplete').style.display = 'none';
-                
-                document.getElementById('completedLevel').textContent = globalLevel;
-                document.getElementById('newLevel').textContent = globalLevel + 1;
-                document.getElementById('newMultiplier').textContent = globalLevel + 1;
-                
-                globalLevel++;
-                levelScore = 0;
-                levelStarsCaught = 0;
-                
-                document.getElementById('globalLevel').textContent = `רמה גלובלית: ${globalLevel} (מכפיל נקודות: x${globalLevel})`;
-                updateLegends();
-                saveGame();
-
-                document.getElementById('levelComplete').style.display = 'block';
-            } else {
-                nextStage();
             }
         }
         
         function nextStage() {
-            if (currentStage >= 20) {
-                checkLevelUp();
-            } else {
-                currentStage++;
-                startStage(currentStage);
-            }
+            currentStage++;
+            initStage();
+            document.getElementById('stageComplete').style.display = 'none';
         }
-
+        
+        function nextLevel() {
+            globalLevel++;
+            currentStage = 1;
+            levelScore = 0;
+            levelStarsCaught = 0;
+            levelStartTime = Date.now();
+            updateGlobalLevel();
+            updateLegend();
+            initStage();
+            document.getElementById('levelComplete').style.display = 'none';
+        }
+        
         function retryStage() {
-            lives = Math.max(lives, 1); // Get at least one life to retry
-            updateLives();
-            startStage(currentStage);
+            initStage();
+            document.getElementById('gameOver').style.display = 'none';
         }
-
+        
         function restartGame() {
             globalLevel = 1;
             currentStage = 1;
-            lives = 3;
             levelScore = 0;
-            document.getElementById('globalLevel').textContent = `רמה גלובלית: ${globalLevel} (מכפיל נקודות: x${globalLevel})`;
-            updateLegends();
-            saveGame();
-            startStage(1);
-        }
-
-        function nextLevel() {
-            currentStage = 1;
-            startStage(1);
+            levelStarsCaught = 0;
+            levelStartTime = Date.now();
+            updateGlobalLevel();
+            updateLegend();
+            document.getElementById('gameOver').style.display = 'none';
+            document.getElementById('stageComplete').style.display = 'none';
+            document.getElementById('levelComplete').style.display = 'none';
+            initStage();
         }
         
-        // Initial game start
-        loadGame();
+        function initStage() {
+            score = 0;
+            lives = 3;
+            combo = 1;
+            comboCount = 0;
+            maxCombo = 1;
+            starsCaught = 0;
+            bombsAvoided = 0;
+            blackholesAvoided = 0;
+            lightningAvoided = 0;
+            shieldTime = 0;
+            speedBoostTime = 0;
+            freezeTime = 0;
+            magnetTime = 0;
+            doublePointsTime = 0;
+            lastStarType = null;
+            gameRunning = true;
+            stageStartTime = Date.now();
+            
+            starSpeed = 1.5 + (globalLevel * 0.2) + (currentStage * 0.05);
+            spawnRate = 0.02 + (globalLevel * 0.003) + (currentStage * 0.001);
+            bombChance = 0.08 + (globalLevel * 0.01) + (currentStage * 0.005);
+            
+            updateStageInfo();
+            updateScore();
+            updateLives();
+            updateCombo();
+            updateSpecialEffects();
+            
+            player.classList.remove('player-shield');
+            
+            const objects = gameContainer.querySelectorAll('.star, .bomb, .blackhole, .lightning, .powerup, .combo-text, .points-text');
+            objects.forEach(obj => obj.remove());
+            
+            gameLoop();
+        }
+        
+        function gameLoop() {
+            if (!gameRunning) return;
+            
+            if (shieldTime > 0) shieldTime--;
+            if (speedBoostTime > 0) speedBoostTime--;
+            if (freezeTime > 0) freezeTime--;
+            if (magnetTime > 0) magnetTime--;
+            if (doublePointsTime > 0) doublePointsTime--;
+            
+            updateSpecialEffects();
+            
+            if (Math.random() < spawnRate) {
+                createFallingObject();
+            }
+            
+            setTimeout(() => requestAnimationFrame(gameLoop), 16);
+        }
+        
+        // התחלת המשחק
+        document.addEventListener('DOMContentLoaded', function() {
+            const rect = gameContainer.getBoundingClientRect();
+            mouseX = rect.width / 2;
+            mouseY = rect.height / 2;
+            player.style.left = (mouseX - 20) + 'px';
+            player.style.top = (mouseY - 20) + 'px';
+            
+            updateGlobalLevel();
+            updateLegend();
+            
+            // התחל את המשחק אחרי רגע קצר
+            setTimeout(() => {
+                initStage();
+            }, 100);
+        });
+        
+        window.addEventListener('resize', () => {
+            const rect = gameContainer.getBoundingClientRect();
+            mouseX = Math.min(mouseX, rect.width - 40);
+            mouseY = Math.min(mouseY, rect.height - 40);
+            player.style.left = (mouseX - 20) + 'px';
+            player.style.top = (mouseY - 20) + 'px';
+        });
     </script>
 </body>
 </html>
