@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>תפוס את הכוכבים - 20 שלבים</title>
     <style>
-        body {
+        body {ז
             margin: 0;
             padding: 10px;
             background: linear-gradient(135deg, #1e3c72, #2a5298, #1a237e);
@@ -1373,12 +1373,12 @@ if (completed) {
 
             const pauseBtn = document.getElementById('pauseBtn');
             pauseBtn.addEventListener('click', () => {
-if (gameRunning) {
-    resumeGame();
-} else {
-    // אם המשחק לא רץ (למשל אחרי סיום שלב) - נתחיל שלב חדש
-    initStage();
-}
+            if (gameRunning)    {
+                resumeGame();
+            } else if (state && state.currentStage) {
+                // שמירה קיימת אבל לא היה משחק פעיל → נתחיל שלב חדש
+                initStage();
+            }
 
 console.log("Loaded save", state);
 return true;
