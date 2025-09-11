@@ -637,10 +637,11 @@
         // ----------------------------
 function saveGameState(reason = '', stageCompleted = false) {
     try {
-        if (stageCompleted) {
-            // אם השלב הושלם, נעלה לשלב הבא
-            currentStage = Math.min(currentStage + 1, 20);
-        }
+if (stageCompleted) {
+    // אם השלב הושלם, נעלה לשלב הבא ונאפס נקודות
+    currentStage = Math.min(currentStage + 1, 20);
+    score = 0;
+}
 
         const state = {
             globalLevel,
@@ -735,9 +736,10 @@ function saveGameState(reason = '', stageCompleted = false) {
                 }
 
                 // If saved state was running, resume loop
-                if (gameRunning) {
-                    resumeGame();
-                }
+// אם השלב נשמר אחרי מעבר שלב - נתחיל אותו
+if (!gameRunning) {
+    initStage();
+}
 
                 console.log("Loaded save", state);
                 return true;
