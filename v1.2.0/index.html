@@ -1373,15 +1373,15 @@ if (completed) {
 
             const pauseBtn = document.getElementById('pauseBtn');
             pauseBtn.addEventListener('click', () => {
-                if (gameRunning) {
-                    pauseGame();
-                    pauseBtn.textContent = '▶️ המשך';
-                } else {
-                    resumeGame();
-                    pauseBtn.textContent = '⏸️ השהה';
-                }
-            });
-        });
+if (gameRunning) {
+    resumeGame();
+} else {
+    // אם המשחק לא רץ (למשל אחרי סיום שלב) - נתחיל שלב חדש
+    initStage();
+}
+
+console.log("Loaded save", state);
+return true;
 
         window.addEventListener('resize', () => {
             const rect = gameContainer.getBoundingClientRect();
