@@ -1175,7 +1175,11 @@ function saveGameState(reason = '', stageCompleted = false) {
             }
 
             // שמירה מיידית של המצב
-            saveGameState('endStage');
+if (completed) {
+    saveGameState('endStage', true);
+} else {
+    saveGameState('endStage', false);
+}
         }
 
         function nextStage() {
