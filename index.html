@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            padding: 10px;
+            padding: 5px;
             background: linear-gradient(135deg, #1e3c72, #2a5298, #1a237e);
             font-family: Arial, sans-serif;
             color: white;
@@ -15,16 +15,17 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
         
         #gameContainer {
             position: relative;
             width: 100%;
-            height: calc(100vh - 220px);
-            min-height: 400px;
-            max-height: 800px;
-            border: 3px solid #fff;
-            border-radius: 15px;
+            height: calc(100vh - 180px);
+            min-height: 300px;
+            max-height: 600px;
+            border: 2px solid #fff;
+            border-radius: 10px;
             background: radial-gradient(circle at center, #0f1419, #1a237e);
             overflow: hidden;
             cursor: crosshair;
@@ -34,76 +35,75 @@
         #gameInfo {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 5px;
+            font-size: clamp(10px, 2vw, 12px);
             background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 10px;
+            padding: clamp(4px, 1vw, 8px);
+            border-radius: 8px;
             flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
+            gap: 5px;
         }
         
         .info-section {
             text-align: center;
             flex: 1;
-            min-width: 100px;
+            min-width: 80px;
         }
         
         #globalLevel {
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: clamp(4px, 1.5vw, 8px) clamp(8px, 3vw, 15px);
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 18px;
+            font-size: clamp(12px, 2.5vw, 16px);
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             border: 2px solid #fff;
-            box-shadow: 0 0 15px rgba(255,107,53,0.5);
+            box-shadow: 0 0 10px rgba(255,107,53,0.5);
         }
         
         #stageInfo {
             text-align: center;
             background: rgba(0,0,0,0.5);
-            padding: 15px;
-            margin-bottom: 8px;
-            border-radius: 10px;
+            padding: clamp(5px, 1.5vw, 10px);
+            margin-bottom: 5px;
+            border-radius: 8px;
             border: 2px solid #4caf50;
         }
         
         #legend {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
-            font-size: 11px;
+            gap: clamp(4px, 1.5vw, 8px);
+            margin-bottom: 5px;
+            font-size: clamp(8px, 1.2vw, 10px);
             opacity: 0.9;
             flex-wrap: wrap;
             background: rgba(0,0,0,0.3);
-            padding: 8px;
-            border-radius: 8px;
+            padding: clamp(3px, 1vw, 6px);
+            border-radius: 6px;
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
         }
         
         .progress-bar {
             width: 100%;
-            height: 20px;
+            height: clamp(15px, 2.5vw, 18px);
             background: rgba(0,0,0,0.3);
-            border-radius: 10px;
-            margin: 10px 0;
+            border-radius: 9px;
+            margin: 8px 0;
             overflow: hidden;
         }
         
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #4caf50, #8bc34a);
-            border-radius: 10px;
+            border-radius: 9px;
             transition: width 0.3s ease;
             position: relative;
         }
@@ -113,7 +113,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 12px;
+            font-size: clamp(9px, 1.5vw, 11px);
             font-weight: bold;
             color: white;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
@@ -121,18 +121,18 @@
         
         .star {
             position: absolute;
-            font-size: 30px;
+            font-size: clamp(20px, 3.5vw, 25px);
             cursor: pointer;
             transition: transform 0.1s;
             animation: twinkle 1.5s infinite alternate;
         }
         
         .star-regular { color: #ffeb3b; }
-        .star-blue { color: #4169e1; font-size: 28px; }
-        .star-silver { color: #c0c0c0; font-size: 32px; }
-        .star-gold { color: #ffd700; font-size: 35px; }
+        .star-blue { color: #4169e1; font-size: clamp(18px, 3.2vw, 23px); }
+        .star-silver { color: #c0c0c0; font-size: clamp(22px, 3.8vw, 27px); }
+        .star-gold { color: #ffd700; font-size: clamp(25px, 4.2vw, 30px); }
         .star-rainbow { 
-            font-size: 40px; 
+            font-size: clamp(28px, 4.8vw, 35px); 
             animation: rainbow 2s infinite linear, twinkle 1.5s infinite alternate; 
         }
         
@@ -142,54 +142,73 @@
         }
         
         .bomb {
-            font-size: 25px;
+            font-size: clamp(18px, 3vw, 22px);
             animation: rotate 2s infinite linear;
         }
         
         .blackhole {
-            font-size: 28px;
+            font-size: clamp(20px, 3.5vw, 25px);
             animation: blackholeRotate 3s infinite ease-in-out, blackholePulse 1.5s infinite alternate;
         }
         
         .lightning {
-            font-size: 22px;
+            font-size: clamp(16px, 2.8vw, 20px);
             animation: lightningZigzag 2s infinite linear, lightningGlow 0.5s infinite alternate;
         }
         
         .powerup {
             position: absolute;
-            font-size: 30px;
+            font-size: clamp(22px, 3.8vw, 28px);
             cursor: pointer;
             animation: pulse 1s infinite alternate;
         }
         
         #player {
             position: absolute;
-            font-size: 40px;
+            font-size: clamp(25px, 4.5vw, 35px);
             pointer-events: none;
             z-index: 10;
         }
         
         .player-shield {
-            box-shadow: 0 0 20px #2196f3;
+            box-shadow: 0 0 15px #2196f3;
             animation: shieldGlow 1s infinite alternate;
         }
         
         #gameOver, #stageComplete, #levelComplete {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
-            border-radius: 15px;
+            padding: 0;
+            border-radius: 12px;
             text-align: center;
             border: 2px solid #ffeb3b;
             display: none;
-            z-index: 100;
+            z-index: 1000;
             max-height: 90vh;
-            max-width: 90vw;
+            max-width: 95vw;
+            min-width: 280px;
+            font-size: clamp(11px, 2vw, 14px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .popup-content {
+            padding: clamp(15px, 4vw, 25px);
             overflow-y: auto;
+            flex-grow: 1;
+            max-height: calc(90vh - 80px);
+        }
+        
+        .popup-buttons {
+            padding: clamp(10px, 3vw, 20px);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            border-radius: 0 0 10px 10px;
+            flex-shrink: 0;
         }
         
         #stageComplete { border-color: #4caf50; }
@@ -199,13 +218,14 @@
             background: #4caf50;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px);
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 8px;
+            font-size: clamp(11px, 2vw, 14px);
+            margin: clamp(3px, 1vw, 6px);
             transition: background 0.3s;
-            min-height: 44px;
+            min-height: 36px;
+            box-sizing: border-box;
         }
         
         button:hover { background: #45a049; }
@@ -221,42 +241,14 @@
         .points-text, .combo-text {
             position: absolute;
             font-weight: bold;
-            font-size: 18px;
+            font-size: clamp(12px, 2.5vw, 16px);
             pointer-events: none;
             animation: floatUp 1s ease-out forwards;
             z-index: 50;
         }
         
-        .combo-text { color: #4caf50; font-size: 20px; }
+        .combo-text { color: #4caf50; font-size: clamp(14px, 3vw, 18px); }
         .points-text { color: #ffeb3b; }
-        
-        #manualSavePanel {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .small-btn {
-            padding: 8px 12px;
-            font-size: 13px;
-            min-height: 36px;
-            border-radius: 6px;
-        }
-
-        .top-right-controls {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            z-index: 200;
-            display: flex;
-            gap: 8px;
-        }
-
-        .stat-small {
-            font-size: 13px;
-            opacity: 0.9;
-        }
         
         @keyframes rainbow {
             0% { filter: hue-rotate(0deg); }
@@ -313,20 +305,76 @@
         }
         
         @media (max-width: 768px) {
-            body { padding: 5px; }
+            body { 
+                padding: 3px; 
+            }
+            
             #gameContainer {
-                height: calc(100vh - 150px);
-                border-width: 2px;
+                height: calc(100vh - 140px);
+                border-width: 1px;
+                min-height: 250px;
             }
+            
             .info-section {
-                min-width: 80px;
-                font-size: 11px;
+                min-width: 70px;
+                font-size: 9px;
             }
+            
             #gameInfo {
-                flex-direction: column;
-                gap: 5px;
+                flex-direction: row;
+                gap: 3px;
+                padding: 4px;
             }
-            .top-right-controls { left: 4px; }
+            
+            #globalLevel {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+            
+            #stageInfo {
+                padding: 6px;
+            }
+            
+            #legend {
+                gap: 3px;
+                font-size: 8px;
+                padding: 4px;
+            }
+            
+            button {
+                font-size: 11px;
+                padding: 6px 10px;
+                margin: 3px;
+                min-height: 32px;
+            }
+            
+            #gameOver, #stageComplete, #levelComplete {
+                padding: 10px;
+                font-size: 10px;
+                max-width: 98vw;
+                margin: 1vw;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #gameContainer {
+                height: calc(100vh - 120px);
+                min-height: 200px;
+            }
+            
+            #gameInfo .info-section {
+                min-width: 60px;
+                font-size: 8px;
+            }
+            
+            #legend {
+                font-size: 7px;
+                gap: 2px;
+            }
+            
+            .legend-item {
+                margin: 1px;
+            }
         }
     </style>
 </head>
@@ -347,7 +395,7 @@
         <div class="legend-item" id="doubleLegend" style="opacity: 0.5;">💎 כפול (רמה 4+)</div>
         <div class="legend-item" style="color: #f44336;">💥 פצצה</div>
         <div class="legend-item" style="color: #9c27b0;">🕳️ חור שחור</div>
-        <div class="legend-item" style="color: #ff5722;">⛈️ זיק</div>
+        <div class="legend-item" style="color: #ff5722;">🌩️ זיק</div>
     </div>
     
     <div id="stageInfo">
@@ -373,72 +421,75 @@
             <div>מגן: <span id="shield">0</span></div>
             <div>מיוחד: <span id="special">אין</span></div>
         </div>
-        <div class="info-section stat-small" style="min-width: 200px;">
-            <div id="manualSavePanel" style="justify-content:center">
-                <button id="saveBtn" class="small-btn">💾 שמור</button>
-            </div>
-        </div>
     </div>
     
     <div id="gameContainer">
         <div id="player">🎯</div>
         
-        <div id="gameOver">
-            <h2>נכשלת בשלב!</h2>
-            <p>ניקוד: <span id="failScore">0</span> מתוך <span id="failTarget">0</span></p>
-            <div id="finalStats"></div>
-            <button class="retry-btn" onclick="retryStage()">נסה שוב</button>
-            <button onclick="restartGame()">התחל מחדש</button>
+        <div id="gameOver" style="display: none;">
+            <div class="popup-content">
+                <h2>נכשלת בשלב!</h2>
+                <p>ניקוד: <span id="failScore">0</span> מתוך <span id="failTarget">0</span></p>
+            </div>
+            <div class="popup-buttons">
+                <button class="retry-btn" onclick="retryStage()">נסה שוב</button>
+                <button onclick="restartGame()">התחל מחדש</button>
+            </div>
         </div>
         
-        <div id="stageComplete">
-            <h2>🎉 כל הכבוד! עברת את השלב! 🎉</h2>
-            <p>שלב <span id="completedStage">1</span> - <span id="completedStageName">התחלה</span> הושלם!</p>
-            
-            <div style="background: rgba(76,175,80,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                <h3>📊 סטטיסטיקות השלב:</h3>
-                <p>🎯 ניקוד השלב: <span id="stageScore">0</span> נקודות</p>
-                <p>⏱️ זמן השלב: <span id="stageTime">0</span> שניות</p>
-                <p>🔥 קומבו מקסימלי: <span id="stageMaxCombo">1</span></p>
-                <p>⭐ כוכבים שנתפסו: <span id="stageStarsCaught">0</span></p>
-                <p>💥 פצצות שנמנעו: <span id="stageBombsAvoided">0</span></p>
-                <p>🕳️ חורים שחורים שנמנעו: <span id="stageBlackholesAvoided">0</span></p>
-                <p>⛈️ ברקים שנמנעו: <span id="stageLightningAvoided">0</span></p>
-            </div>
-            
-            <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                <h3>📈 התקדמות ברמה הגלובלית:</h3>
-                <p>📊 סה"כ נקודות ברמה: <span id="levelScore">0</span></p>
-                <p>🎮 שלבים שהושלמו: <span id="completedStages">0</span>/20</p>
-                <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; margin: 10px 0;">
-                    <div id="levelProgressFill" style="height: 100%; background: linear-gradient(90deg, #ff9800, #ffc107); border-radius: 10px; transition: width 0.3s; position: relative;">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="levelProgressText"></div>
+        <div id="stageComplete" style="display: none;">
+            <div class="popup-content">
+                <h2>🎉 כל הכבוד! עברת את השלב! 🎉</h2>
+                <p>שלב <span id="completedStage">1</span> - <span id="completedStageName">התחלה</span> הושלם!</p>
+                
+                <div style="background: rgba(76,175,80,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <h3>📊 סטטיסטיקות השלב:</h3>
+                    <p>🎯 ניקוד השלב: <span id="stageScore">0</span> נקודות</p>
+                    <p>⏱️ זמן השלב: <span id="stageTime">0</span> שניות</p>
+                    <p>🔥 קומבו מקסימלי: <span id="stageMaxCombo">1</span></p>
+                    <p>⭐ כוכבים שנתפסו: <span id="starsCaught">0</span></p>
+                    <p>💥 פצצות שנמנעו: <span id="bombsAvoided">0</span></p>
+                    <p>🕳️ חורים שחורים שנמנעו: <span id="blackholesAvoided">0</span></p>
+                    <p>🌩️ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
+                </div>
+                
+                <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <h3>📈 התקדמות ברמה הגלובלית:</h3>
+                    <p>📊 סה"כ נקודות ברמה: <span id="levelScore">0</span></p>
+                    <p>🎮 שלבים שהושלמו: <span id="completedStages">0</span>/20</p>
+                    <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; margin: 10px 0;">
+                        <div id="levelProgressFill" style="height: 100%; background: linear-gradient(90deg, #ff9800, #ffc107); border-radius: 10px; transition: width 0.3s; position: relative;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="levelProgressText"></div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                <button onclick="nextStage()" style="background: linear-gradient(45deg, #4caf50, #8bc34a); font-size: 18px; padding: 15px 30px;">
-                    <span id="nextStageText">שלב הבא →</span>
-                </button>
-                <button onclick="retryStage()" class="retry-btn">נסה שלב זה שוב</button>
+            <div class="popup-buttons">
+                <div style="display: flex; gap: clamp(5px, 2vw, 10px); justify-content: center; flex-wrap: wrap;">
+                    <button onclick="nextStage()" style="background: linear-gradient(45deg, #4caf50, #8bc34a); font-size: clamp(12px, 2.5vw, 16px); padding: clamp(10px, 2.5vw, 15px) clamp(15px, 4vw, 25px); flex: 1; min-width: 120px; max-width: 200px;">
+                        <span id="nextStageText">שלב הבא →</span>
+                    </button>
+                    <button onclick="retryStage()" class="retry-btn" style="flex: 1; min-width: 120px; max-width: 180px;">נסה שלב זה שוב</button>
+                </div>
             </div>
         </div>
         
-        <div id="levelComplete">
-            <h2>🎉 מזל טוב! עליתי רמה גלובלית! 🎉</h2>
-            <p>סיימת רמה <span id="completedLevel">1</span>!</p>
-            <p>עליתי לרמה <span id="newLevel">2</span>!</p>
-            <p>מכפיל חדש: x<span id="newMultiplier">2</span></p>
-            <p>פאוור-אפים חדשים נפתחו!</p>
-            <button class="mega-btn" onclick="nextLevel()">התחל רמה חדשה!</button>
+        <div id="levelComplete" style="display: none;">
+            <div class="popup-content">
+                <h2>🎉 מזל טוב! עליתי רמה גלובלית! 🎉</h2>
+                <p>סיימת רמה <span id="completedLevel">1</span>!</p>
+                <p>עליתי לרמה <span id="newLevel">2</span>!</p>
+                <p>מכפיל חדש: x<span id="newMultiplier">2</span></p>
+                <p>פאוור-אפים חדשים נפתחו!</p>
+            </div>
+            <div class="popup-buttons">
+                <button class="mega-btn" onclick="nextLevel()">התחל רמה חדשה!</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // ----------------------------
-        //  משתנים גלובליים
-        // ----------------------------
         let globalLevel = 1;
         let currentStage = 1;
         let score = 0;
@@ -464,46 +515,7 @@
         let blackholesAvoided = 0;
         let lightningAvoided = 0;
         let levelStarsCaught = 0;
-        let completedStages = 0;
-        let powerups = {}; // for future extension
-        let mouseX = 0;
-        let mouseY = 0;
-
-        // game-loop control
-        let gameLoopRunning = false;
-        let lastTimestamp = null;
-        let autoSaveIntervalId = null;
-        const SAVE_KEY = "catchStarsSave_v1";
-
-        // ----------------------------
-        //  ארגז כלים: cookie helpers (נשארים, optional)
-        // ----------------------------
-        function setCookie(name, value, days) {
-          const d = new Date();
-          d.setTime(d.getTime() + (days*24*60*60*1000));
-          document.cookie = name + "=" + encodeURIComponent(JSON.stringify(value)) + ";expires=" + d.toUTCString() + ";path=/";
-        }
-
-        function getCookie(name) {
-          const cname = name + "=";
-          const decodedCookie = decodeURIComponent(document.cookie || "");
-          const ca = decodedCookie.split(';');
-          for(let c of ca) {
-            c = c.trim();
-            if (c.indexOf(cname) === 0) {
-              try {
-                return JSON.parse(c.substring(cname.length, c.length));
-              } catch {
-                return null;
-              }
-            }
-          }
-          return null;
-        }
-
-        // ----------------------------
-        //  תבניות שלבים, סוגי כוכבים ופאוור-אפים
-        // ----------------------------
+        
         const baseStageTargets = [
             100, 150, 200, 280, 370, 480, 600, 750, 920, 1120,
             1350, 1620, 1930, 2280, 2670, 3100, 3570, 4080, 4630, 5220
@@ -532,265 +544,53 @@
             { emoji: '🧲', type: 'magnet', chance: 0.02 },
             { emoji: '💎', type: 'double', chance: 0.02 }
         ];
-
-        // ----------------------------
-        //  אלמנטים DOM
-        // ----------------------------
+        
         const gameContainer = document.getElementById('gameContainer');
         const player = document.getElementById('player');
-
-        // ----------------------------
-        //  עדכון UI - שמור על פונקציות קונסיסטנטיות
-        // ----------------------------
-        function updateScore() {
-            document.getElementById('score').textContent = score;
-        }
-        function updateLives() {
-            document.getElementById('lives').textContent = lives;
-        }
-        function updateCombo() {
-            document.getElementById('combo').textContent = 'x' + combo;
-            document.getElementById('combo').style.color = combo > 1 ? '#4caf50' : '#fff';
-        }
-        function updateGlobalLevel() {
-            document.getElementById('globalLevel').textContent = 
-                `רמה גלובלית: ${globalLevel} (מכפיל נקודות: x${globalLevel})`;
-        }
-        function updateLegend() {
-            const freezeLegend = document.getElementById('freezeLegend');
-            const magnetLegend = document.getElementById('magnetLegend');
-            const doubleLegend = document.getElementById('doubleLegend');
-            
-            if (freezeLegend && globalLevel >= 2) {
-                freezeLegend.style.opacity = '1';
-                freezeLegend.style.color = '#00bcd4';
-            }
-            
-            if (magnetLegend && globalLevel >= 3) {
-                magnetLegend.style.opacity = '1';
-                magnetLegend.style.color = '#9c27b0';
-            }
-            
-            if (doubleLegend && globalLevel >= 4) {
-                doubleLegend.style.opacity = '1';
-                doubleLegend.style.color = '#e91e63';
-            }
-        }
-        function updateSpecialEffects() {
-            let special = 'אין';
-            
-            if (doublePointsTime > 0) {
-                special = `כפול: ${Math.ceil(doublePointsTime/60)}`;
-                document.getElementById('special').style.color = '#e91e63';
-            } else if (magnetTime > 0) {
-                special = `מגנט: ${Math.ceil(magnetTime/60)}`;
-                document.getElementById('special').style.color = '#9c27b0';
-            } else if (freezeTime > 0) {
-                special = `הקפאה: ${Math.ceil(freezeTime/60)}`;
-                document.getElementById('special').style.color = '#00bcd4';
-            } else if (speedBoostTime > 0) {
-                special = `מהירות: ${Math.ceil(speedBoostTime/60)}`;
-                document.getElementById('special').style.color = '#ff9800';
-            } else {
-                document.getElementById('special').style.color = '#666';
-            }
-            
-            document.getElementById('special').textContent = special;
-            
-            if (shieldTime > 0) {
-                document.getElementById('shield').textContent = Math.ceil(shieldTime/60);
-                document.getElementById('shield').style.color = '#2196f3';
-                player.classList.add('player-shield');
-            } else {
-                document.getElementById('shield').textContent = '0';
-                document.getElementById('shield').style.color = '#666';
-                player.classList.remove('player-shield');
-            }
-        }
-
-        function updateStageInfo() {
-            const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
-            const stageName = stageNames[currentStage - 1];
-            document.getElementById('stageTitle').textContent = `שלב ${currentStage}: ${stageName}`;
-            document.getElementById('stageGoal').textContent = `יעד: ${target} נקודות`;
-            document.getElementById('stageNum').textContent = currentStage;
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
-            const progress = Math.min((score / target) * 100, 100);
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('progressText').textContent = `${score} / ${target}`;
-        }
-
-        function updateLevelProgressUI() {
-            document.getElementById('levelScore').textContent = levelScore;
-            document.getElementById('completedStages').textContent = completedStages;
-            const pct = Math.min(100, (completedStages / 20) * 100);
-            document.getElementById('levelProgressFill').style.width = pct + '%';
-            document.getElementById('levelProgressText').textContent = `${completedStages}/20`;
-        }
-
-        // ----------------------------
-        //  שמירה / טעינה מלאה (localStorage)
-        // ----------------------------
-        function saveGameState(reason = '') {
-            try {
-                const state = {
-                    globalLevel,
-                    currentStage,
-                    score,
-                    levelScore,
-                    lives,
-                    starSpeed,
-                    spawnRate,
-                    bombChance,
-                    combo,
-                    comboCount,
-                    maxCombo,
-                    shieldTime,
-                    speedBoostTime,
-                    freezeTime,
-                    magnetTime,
-                    doublePointsTime,
-                    lastStarType,
-                    stageStartTime,
-                    levelStartTime,
-                    starsCaught,
-                    bombsAvoided,
-                    blackholesAvoided,
-                    lightningAvoided,
-                    levelStarsCaught,
-                    completedStages,
-                    mouseX,
-                    mouseY,
-                    gameRunning,
-                    savedAt: Date.now()
-                };
-                localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-                // small visual feedback - console + brief flash (optional)
-                console.log("Game saved", reason, state);
-            } catch (e) {
-                console.error("Save failed", e);
-            }
-        }
-
-        function loadGameState() {
-            try {
-                const saved = localStorage.getItem(SAVE_KEY);
-                if (!saved) return false;
-                const state = JSON.parse(saved);
-
-                // assign values (use nullish coalescing to preserve defaults)
-                globalLevel = state.globalLevel ?? globalLevel;
-                currentStage = state.currentStage ?? currentStage;
-                score = state.score ?? score;
-                levelScore = state.levelScore ?? levelScore;
-                lives = state.lives ?? lives;
-                starSpeed = state.starSpeed ?? (1.5 + (globalLevel * 0.2) + (currentStage * 0.05));
-                spawnRate = state.spawnRate ?? spawnRate;
-                bombChance = state.bombChance ?? bombChance;
-                combo = state.combo ?? combo;
-                comboCount = state.comboCount ?? comboCount;
-                maxCombo = state.maxCombo ?? maxCombo;
-                shieldTime = state.shieldTime ?? shieldTime;
-                speedBoostTime = state.speedBoostTime ?? speedBoostTime;
-                freezeTime = state.freezeTime ?? freezeTime;
-                magnetTime = state.magnetTime ?? magnetTime;
-                doublePointsTime = state.doublePointsTime ?? doublePointsTime;
-                lastStarType = state.lastStarType ?? lastStarType;
-                stageStartTime = state.stageStartTime ?? Date.now();
-                levelStartTime = state.levelStartTime ?? Date.now();
-                starsCaught = state.starsCaught ?? starsCaught;
-                bombsAvoided = state.bombsAvoided ?? bombsAvoided;
-                blackholesAvoided = state.blackholesAvoided ?? blackholesAvoided;
-                lightningAvoided = state.lightningAvoided ?? lightningAvoided;
-                levelStarsCaught = state.levelStarsCaught ?? levelStarsCaught;
-                completedStages = state.completedStages ?? completedStages;
-                mouseX = state.mouseX ?? mouseX;
-                mouseY = state.mouseY ?? mouseY;
-                gameRunning = state.gameRunning ?? false;
-
-                // Update UI and player position
-                updateGlobalLevel();
-                updateLegend();
-                updateScore();
-                updateLives();
-                updateCombo();
-                updateSpecialEffects();
-                updateStageInfo();
-                updateLevelProgressUI();
-
-                if (mouseX && mouseY) {
-                    // keep within bounds
-                    const rect = gameContainer.getBoundingClientRect();
-                    mouseX = Math.max(20, Math.min(rect.width - 20, mouseX));
-                    mouseY = Math.max(20, Math.min(rect.height - 20, mouseY));
-                    player.style.left = (mouseX - 20) + 'px';
-                    player.style.top = (mouseY - 20) + 'px';
-                }
-
-                // If saved state was running, resume loop
-                if (gameRunning) {
-                    resumeGame();
-                }
-
-                console.log("Loaded save", state);
-                return true;
-            } catch (e) {
-                console.error("Load failed", e);
-                return false;
-            }
-        }
-
-        function clearSave() {
-            localStorage.removeItem(SAVE_KEY);
-            console.log("Save cleared");
-        }
-
-        // ----------------------------
-        //  מיקום העכבר / שחקן
-        // ----------------------------
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        // עדכון מיקום השחקן
         function updatePlayerPosition(clientX, clientY) {
+            if (!gameRunning) return;
             const rect = gameContainer.getBoundingClientRect();
             mouseX = clientX - rect.left;
             mouseY = clientY - rect.top;
-            // bounds
+            
+            // ודא שהשחקן נשאר בגבולות
             mouseX = Math.max(20, Math.min(rect.width - 20, mouseX));
             mouseY = Math.max(20, Math.min(rect.height - 20, mouseY));
+            
             player.style.left = (mouseX - 20) + 'px';
             player.style.top = (mouseY - 20) + 'px';
         }
-
+        
         gameContainer.addEventListener('mousemove', (e) => {
             updatePlayerPosition(e.clientX, e.clientY);
         });
-
+        
         gameContainer.addEventListener('touchmove', (e) => {
             e.preventDefault();
             if (e.touches.length > 0) {
                 updatePlayerPosition(e.touches[0].clientX, e.touches[0].clientY);
             }
         });
-
+        
         gameContainer.addEventListener('touchstart', (e) => {
             e.preventDefault();
             if (e.touches.length > 0) {
                 updatePlayerPosition(e.touches[0].clientX, e.touches[0].clientY);
             }
         });
-
-        // ----------------------------
-        //  סוגי כוכבים ופאוור-אפים (helpers)
-        // ----------------------------
+        
         function getStarTypes() {
-            return baseStarTypes.map(star => (({
+            return baseStarTypes.map(star => ({
                 ...star,
                 points: Math.floor(star.basePoints * globalLevel * (doublePointsTime > 0 ? 2 : 1))
-            })));
+            }));
         }
-
+        
         function getRandomStarType() {
             const starTypes = getStarTypes();
             const random = Math.random();
@@ -801,19 +601,12 @@
             }
             return starTypes[0];
         }
-
+        
         function getRandomPowerup() {
-            // allow powerups depending on global level (simple gating)
-            const availablePowerups = powerupTypes.filter((p, idx) => {
-                // make shields & life available earlier, others later
-                if (idx <= 1) return true;
-                if (idx === 2) return globalLevel >= 1;
-                if (idx === 3) return globalLevel >= 2;
-                if (idx === 4) return globalLevel >= 3;
-                if (idx === 5) return globalLevel >= 4;
-                return false;
-            });
-
+            const availablePowerups = powerupTypes.filter(p => 
+                globalLevel >= Math.ceil(powerupTypes.indexOf(p) / 2)
+            );
+            
             const random = Math.random();
             let cumulative = 0;
             for (let powerup of availablePowerups) {
@@ -822,7 +615,7 @@
             }
             return null;
         }
-
+        
         function showFloatingText(x, y, text, className) {
             const element = document.createElement('div');
             element.className = className;
@@ -837,10 +630,7 @@
                 }
             }, 1000);
         }
-
-        // ----------------------------
-        //  יצירת אובייקטים נופלים
-        // ----------------------------
+        
         function createFallingObject() {
             if (!gameRunning) return;
             
@@ -868,7 +658,7 @@
                 } else {
                     objectType = 'lightning';
                     object.className = 'lightning';
-                    object.textContent = '⛈️';
+                    object.textContent = '🌩️';
                     object.dataset.speed = Math.random() > 0.5 ? 'fast' : 'normal';
                 }
             } else {
@@ -899,8 +689,7 @@
             if (magnetTime > 0 && objectType === 'star') {
                 object.dataset.magnetic = 'true';
             }
-
-            // movement handled by requestAnimationFrame cycle inside fall()
+            
             function fall() {
                 if (!gameRunning || !object.parentNode) {
                     if (object.parentNode) object.remove();
@@ -918,11 +707,12 @@
                     fallSpeed *= 1.5;
                 }
                 
-                // חור שחור - משיכה
+                // חור שחור משוך כוכבים ושחקן
                 if (objectType === 'blackhole') {
                     const pullRadius = parseInt(object.dataset.pullRadius) || 80;
                     const blackholeX = parseInt(object.style.left) + 15;
                     const blackholeY = parseInt(object.style.top) + 15;
+                    
                     const playerDistance = Math.sqrt(Math.pow(mouseX - blackholeX, 2) + Math.pow(mouseY - blackholeY, 2));
                     if (playerDistance < pullRadius) {
                         const pullStrength = (pullRadius - playerDistance) / pullRadius * 0.8;
@@ -962,8 +752,8 @@
                     return;
                 }
                 
-                const containerRect2 = gameContainer.getBoundingClientRect();
-                if (parseInt(object.style.top) > containerRect2.height + 50) {
+                const containerRect = gameContainer.getBoundingClientRect();
+                if (currentTop > containerRect.height) {
                     object.remove();
                     if (objectType === 'star') {
                         resetCombo();
@@ -976,10 +766,7 @@
             
             requestAnimationFrame(fall);
         }
-
-        // ----------------------------
-        //  התנגשות / פאוור-אפים
-        // ----------------------------
+        
         function handleCollision(object, objectType) {
             const rect = object.getBoundingClientRect();
             const gameRect = gameContainer.getBoundingClientRect();
@@ -1035,8 +822,6 @@
                 }
             } else if (objectType === 'powerup') {
                 handlePowerup(object.dataset.powerupType, x, y);
-                // שמור מייד אחרי קבלת פאוור-אפ
-                saveGameState('powerup-collected');
             } else if (objectType === 'star') {
                 starsCaught++;
                 levelStarsCaught++;
@@ -1071,13 +856,13 @@
                 showFloatingText(x, y, `+${points}`, 'points-text');
             }
             
-            if (object.parentNode) object.remove();
+            object.remove();
         }
-
+        
         function handlePowerup(type, x, y) {
             switch(type) {
                 case 'shield':
-                    shieldTime = Math.max(shieldTime, 300); // frames (~5s at 60fps)
+                    shieldTime = 300;
                     player.classList.add('player-shield');
                     showFloatingText(x, y, 'מגן!', 'combo-text');
                     break;
@@ -1087,126 +872,191 @@
                     showFloatingText(x, y, 'חיים!', 'combo-text');
                     break;
                 case 'speed':
-                    speedBoostTime = Math.max(speedBoostTime, 300);
+                    speedBoostTime = 300;
                     showFloatingText(x, y, 'מהירות!', 'combo-text');
                     break;
                 case 'freeze':
-                    freezeTime = Math.max(freezeTime, 240);
+                    freezeTime = 240;
                     showFloatingText(x, y, 'הקפאה!', 'combo-text');
                     break;
                 case 'magnet':
-                    magnetTime = Math.max(magnetTime, 240);
+                    magnetTime = 240;
                     showFloatingText(x, y, 'מגנט!', 'combo-text');
                     break;
                 case 'double':
-                    doublePointsTime = Math.max(doublePointsTime, 180);
+                    doublePointsTime = 180;
                     showFloatingText(x, y, 'נקודות x2!', 'combo-text');
                     break;
-                default:
-                    showFloatingText(x, y, 'Powerup!', 'combo-text');
             }
-            // עדכון UI אחרי כל פאוור-אפ
-            updateSpecialEffects();
         }
-
+        
         function resetCombo() {
             combo = 1;
             comboCount = 0;
             lastStarType = null;
             updateCombo();
         }
-
-        // ----------------------------
-        //  סיום שלב / המשך / לולאת משחק
-        // ----------------------------
-        function clearAllFallingObjects() {
-            const objects = gameContainer.querySelectorAll('.star, .bomb, .blackhole, .lightning, .powerup, .combo-text, .points-text');
-            objects.forEach(obj => obj.remove());
+        
+        function updateScore() {
+            document.getElementById('score').textContent = score;
         }
-
+        
+        function updateLives() {
+            document.getElementById('lives').textContent = lives;
+        }
+        
+        function updateCombo() {
+            document.getElementById('combo').textContent = 'x' + combo;
+            document.getElementById('combo').style.color = combo > 1 ? '#4caf50' : '#fff';
+        }
+        
+        function updateStageInfo() {
+            const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
+            const stageName = stageNames[currentStage - 1];
+            document.getElementById('stageTitle').textContent = `שלב ${currentStage}: ${stageName}`;
+            document.getElementById('stageGoal').textContent = `יעד: ${target} נקודות`;
+            document.getElementById('stageNum').textContent = currentStage;
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
+            const progress = Math.min((score / target) * 100, 100);
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${score} / ${target}`;
+        }
+        
+        function updateGlobalLevel() {
+            document.getElementById('globalLevel').textContent = 
+                `רמה גלובלית: ${globalLevel} (מכפיל נקודות: x${globalLevel})`;
+        }
+        
+        function updateLegend() {
+            const freezeLegend = document.getElementById('freezeLegend');
+            const magnetLegend = document.getElementById('magnetLegend');
+            const doubleLegend = document.getElementById('doubleLegend');
+            
+            if (freezeLegend && globalLevel >= 2) {
+                freezeLegend.style.opacity = '1';
+                freezeLegend.style.color = '#00bcd4';
+            }
+            
+            if (magnetLegend && globalLevel >= 3) {
+                magnetLegend.style.opacity = '1';
+                magnetLegend.style.color = '#9c27b0';
+            }
+            
+            if (doubleLegend && globalLevel >= 4) {
+                doubleLegend.style.opacity = '1';
+                doubleLegend.style.color = '#e91e63';
+            }
+        }
+        
+        function updateSpecialEffects() {
+            let special = 'אין';
+            
+            if (doublePointsTime > 0) {
+                special = `כפול: ${Math.ceil(doublePointsTime/60)}`;
+                document.getElementById('special').style.color = '#e91e63';
+            } else if (magnetTime > 0) {
+                special = `מגנט: ${Math.ceil(magnetTime/60)}`;
+                document.getElementById('special').style.color = '#9c27b0';
+            } else if (freezeTime > 0) {
+                special = `הקפאה: ${Math.ceil(freezeTime/60)}`;
+                document.getElementById('special').style.color = '#00bcd4';
+            } else if (speedBoostTime > 0) {
+                special = `מהירות: ${Math.ceil(speedBoostTime/60)}`;
+                document.getElementById('special').style.color = '#ff9800';
+            } else {
+                document.getElementById('special').style.color = '#666';
+            }
+            
+            document.getElementById('special').textContent = special;
+            
+            if (shieldTime > 0) {
+                document.getElementById('shield').textContent = Math.ceil(shieldTime/60);
+                document.getElementById('shield').style.color = '#2196f3';
+            } else {
+                document.getElementById('shield').textContent = '0';
+                document.getElementById('shield').style.color = '#666';
+                player.classList.remove('player-shield');
+            }
+        }
+        
         function endStage(completed) {
             gameRunning = false;
-            // נקודה: נעצור את הלולאה (gameLoop יקרא לעצמו רק אם gameRunning true)
-            // ננקה את האובייקטים מהמסך כדי שלא ימשיכו לאחר סיום
-            clearAllFallingObjects();
-
-            const elapsedSec = Math.floor((Date.now() - stageStartTime) / 1000);
-
+            
             if (completed) {
-                completedStages = Math.min(20, completedStages + 1);
-                // עדכון סטטיסטיקות בתצוגה
-                document.getElementById('stageComplete').style.display = 'block';
+                const stageTime = Math.floor((Date.now() - stageStartTime) / 1000);
+                const stageName = stageNames[currentStage - 1];
+                
                 document.getElementById('completedStage').textContent = currentStage;
-                document.getElementById('completedStageName').textContent = stageNames[currentStage - 1] || '';
+                document.getElementById('completedStageName').textContent = stageName;
                 document.getElementById('stageScore').textContent = score;
-                document.getElementById('stageTime').textContent = elapsedSec;
+                document.getElementById('stageTime').textContent = stageTime;
                 document.getElementById('stageMaxCombo').textContent = maxCombo;
-                document.getElementById('stageStarsCaught').textContent = starsCaught;
-                document.getElementById('stageBombsAvoided').textContent = bombsAvoided;
-                document.getElementById('stageBlackholesAvoided').textContent = blackholesAvoided;
-                document.getElementById('stageLightningAvoided').textContent = lightningAvoided;
-
-                // עדכון רמה גלובלית (נשמור נקודות ברמה)
-                updateLevelProgressUI();
-
-                // בדיקה אם סיימנו את כל 20 השלבים
-                if (completedStages >= 20) {
-                    // הצגה של סיום רמה גלובלית
-                    document.getElementById('levelComplete').style.display = 'block';
+                document.getElementById('starsCaught').textContent = starsCaught;
+                document.getElementById('bombsAvoided').textContent = bombsAvoided;
+                document.getElementById('blackholesAvoided').textContent = blackholesAvoided;
+                document.getElementById('lightningAvoided').textContent = lightningAvoided;
+                document.getElementById('levelScore').textContent = levelScore;
+                document.getElementById('completedStages').textContent = currentStage;
+                
+                const levelProgress = (currentStage / 20) * 100;
+                document.getElementById('levelProgressFill').style.width = levelProgress + '%';
+                document.getElementById('levelProgressText').textContent = `${currentStage}/20 שלבים`;
+                
+                if (currentStage >= 20) {
+                    document.getElementById('nextStageText').textContent = 'עלה לרמה הבאה! 🚀';
                     document.getElementById('completedLevel').textContent = globalLevel;
                     document.getElementById('newLevel').textContent = globalLevel + 1;
-                    document.getElementById('newMultiplier').textContent = (globalLevel + 1);
+                    document.getElementById('newMultiplier').textContent = globalLevel + 1;
+                    
+                    setTimeout(() => {
+                        document.getElementById('stageComplete').style.display = 'none';
+                        document.getElementById('levelComplete').style.display = 'flex';
+                    }, 3000);
+                } else {
+                    document.getElementById('nextStageText').textContent = `שלב ${currentStage + 1}: ${stageNames[currentStage]} →`;
                 }
-
+                
+                document.getElementById('stageComplete').style.display = 'flex';
             } else {
-                // כשלון בשלב
+                const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
                 document.getElementById('failScore').textContent = score;
-                document.getElementById('failTarget').textContent = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
-                document.getElementById('finalStats').innerHTML = `
-                    <p>⭐ כוכבים נתפסו: ${starsCaught}</p>
-                    <p>💣 פצצות שמנעו: ${bombsAvoided}</p>
-                    <p>🕳️ חורים שחורים שמנעו: ${blackholesAvoided}</p>
-                    <p>⛈️ ברקים שמנעו: ${lightningAvoided}</p>
-                `;
-                document.getElementById('gameOver').style.display = 'block';
+                document.getElementById('failTarget').textContent = target;
+                document.getElementById('gameOver').style.display = 'flex';
             }
-
-            // שמירה מיידית של המצב
-            saveGameState('endStage');
         }
-
+        
         function nextStage() {
-            // אפס סטטיסטיקות של השלב (אבל השאר את השלבים שהושלמו)
-            currentStage = Math.min(20, currentStage + 1);
-            document.getElementById('stageComplete').style.display = 'none';
+            currentStage++;
             initStage();
+            document.getElementById('stageComplete').style.display = 'none';
         }
-
+        
         function nextLevel() {
-            // העלאת רמה גלובלית לאתחול רמה חדשה
             globalLevel++;
             currentStage = 1;
             levelScore = 0;
             levelStarsCaught = 0;
-            completedStages = 0;
             levelStartTime = Date.now();
             updateGlobalLevel();
             updateLegend();
+            initStage();
             document.getElementById('levelComplete').style.display = 'none';
-            initStage();
         }
-
+        
         function retryStage() {
-            document.getElementById('gameOver').style.display = 'none';
             initStage();
+            document.getElementById('gameOver').style.display = 'none';
         }
-
+        
         function restartGame() {
             globalLevel = 1;
             currentStage = 1;
             levelScore = 0;
             levelStarsCaught = 0;
-            completedStages = 0;
             levelStartTime = Date.now();
             updateGlobalLevel();
             updateLegend();
@@ -1215,11 +1065,10 @@
             document.getElementById('levelComplete').style.display = 'none';
             initStage();
         }
-
+        
         function initStage() {
-            // אפס משתנים ספציפיים לשלב (לא מוחק שמירה גלובלית)
             score = 0;
-            lives = Math.max(lives, 1); // בביצוע חוזר אפשר לשמור חיים
+            lives = 3;
             combo = 1;
             comboCount = 0;
             maxCombo = 1;
@@ -1235,81 +1084,44 @@
             lastStarType = null;
             gameRunning = true;
             stageStartTime = Date.now();
-
-            // הגדרות מהירות/יחס לפי רמה/שלב
+            
             starSpeed = 1.5 + (globalLevel * 0.2) + (currentStage * 0.05);
             spawnRate = 0.02 + (globalLevel * 0.003) + (currentStage * 0.001);
             bombChance = 0.08 + (globalLevel * 0.01) + (currentStage * 0.005);
-
+            
             updateStageInfo();
             updateScore();
             updateLives();
             updateCombo();
             updateSpecialEffects();
-            updateLevelProgressUI();
-
+            
             player.classList.remove('player-shield');
-
-            clearAllFallingObjects();
-
-            // התחלת לולאת המשחק (אם לא רצה כבר)
-            if (!gameLoopRunning) {
-                requestAnimationFrame(gameLoop);
-            }
+            
+            const objects = gameContainer.querySelectorAll('.star, .bomb, .blackhole, .lightning, .powerup, .combo-text, .points-text');
+            objects.forEach(obj => obj.remove());
+            
+            gameLoop();
         }
-
-        // ----------------------------
-        //  לולאת משחק מבוססת requestAnimationFrame (שומרת על ביצועים)
-        // ----------------------------
-        function gameLoop(timestamp) {
-            if (!gameRunning) {
-                gameLoopRunning = false;
-                lastTimestamp = null;
-                return;
-            }
-            gameLoopRunning = true;
-            if (!lastTimestamp) lastTimestamp = timestamp;
-            const delta = timestamp - lastTimestamp;
-            // number of ~60FPS frames elapsed
-            const frames = Math.max(1, Math.round(delta / (1000 / 60)));
-
-            // עדכון טיימרים בפריימים (שומר על תפקוד הקוד המקורי)
-            shieldTime = Math.max(0, shieldTime - frames);
-            speedBoostTime = Math.max(0, speedBoostTime - frames);
-            freezeTime = Math.max(0, freezeTime - frames);
-            magnetTime = Math.max(0, magnetTime - frames);
-            doublePointsTime = Math.max(0, doublePointsTime - frames);
-
+        
+        function gameLoop() {
+            if (!gameRunning) return;
+            
+            if (shieldTime > 0) shieldTime--;
+            if (speedBoostTime > 0) speedBoostTime--;
+            if (freezeTime > 0) freezeTime--;
+            if (magnetTime > 0) magnetTime--;
+            if (doublePointsTime > 0) doublePointsTime--;
+            
             updateSpecialEffects();
-
-            // יצירת עצמים (מבוסס על frames כדי להיות deterministic)
-            for (let i = 0; i < frames; i++) {
-                if (Math.random() < spawnRate) {
-                    createFallingObject();
-                }
+            
+            if (Math.random() < spawnRate) {
+                createFallingObject();
             }
-
-            lastTimestamp = timestamp;
-            requestAnimationFrame(gameLoop);
+            
+            setTimeout(() => requestAnimationFrame(gameLoop), 16);
         }
-
-        function resumeGame() {
-            if (!gameRunning) {
-                gameRunning = true;
-            }
-            if (!gameLoopRunning) {
-                lastTimestamp = null;
-                requestAnimationFrame(gameLoop);
-            }
-        }
-
-        function pauseGame() {
-            gameRunning = false;
-        }
-
-        // ----------------------------
-        //  אתחול כאשר הדוקומנט נטען
-        // ----------------------------
+        
+        // התחלת המשחק
         document.addEventListener('DOMContentLoaded', function() {
             const rect = gameContainer.getBoundingClientRect();
             mouseX = rect.width / 2;
@@ -1319,61 +1131,13 @@
             
             updateGlobalLevel();
             updateLegend();
-
-            // טען שמירה אם קיימת
-            const saved = loadGameState();
-            if (!saved) {
-                // אם אין שמירה - התחל שלב ראשון אחרי דחייה קטנה
-                setTimeout(() => {
-                    initStage();
-                }, 100);
-            }
-
-            // הכן שמירה אוטומטית כל 10 שניות (רק פעם אחת)
-            if (!autoSaveIntervalId) {
-                autoSaveIntervalId = setInterval(() => {
-                    saveGameState('autosave');
-                }, 10000);
-            }
-
-            // כפתורים לשמירה/טעינה/ניקוי
-            document.getElementById('saveBtn').addEventListener('click', () => {
-                saveGameState('manual');
-                // חיווי קצר למשתמש (console + שינוי טקסט זמני)
-                const btn = document.getElementById('saveBtn');
-                const old = btn.textContent;
-                btn.textContent = 'נשמר ✅';
-                setTimeout(() => btn.textContent = old, 1200);
-            });
-
-            document.getElementById('loadBtn').addEventListener('click', () => {
-                const ok = loadGameState();
-                const btn = document.getElementById('loadBtn');
-                const old = btn.textContent;
-                btn.textContent = ok ? 'טען ✅' : 'אין שמירה';
-                setTimeout(() => btn.textContent = old, 1200);
-            });
-
-            document.getElementById('clearBtn').addEventListener('click', () => {
-                clearSave();
-                const btn = document.getElementById('clearBtn');
-                const old = btn.textContent;
-                btn.textContent = 'נוקה 🗑️';
-                setTimeout(() => btn.textContent = old, 1000);
-            });
-
-            const pauseBtn = document.getElementById('pauseBtn');
-            pauseBtn.addEventListener('click', () => {
-                if (gameRunning) {
-                    pauseGame();
-                    pauseBtn.textContent = '▶️ המשך';
-                } else {
-                    resumeGame();
-                    pauseBtn.textContent = '⏸️ השהה';
-                }
-            });
+            
+            // התחל את המשחק אחרי רגע קצר
+            setTimeout(() => {
+                initStage();
+            }, 100);
         });
-
+        
         window.addEventListener('resize', () => {
             const rect = gameContainer.getBoundingClientRect();
             mouseX = Math.min(mouseX, rect.width - 40);
