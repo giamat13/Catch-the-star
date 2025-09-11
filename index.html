@@ -428,26 +428,28 @@
         
         // פונקציות Cookies לשמירה וטעינה
 function setCookie(name, value, days) {
-  const d = new Date();
-  d.setTime(d.getTime() + (days*24*60*60*1000));
-  document.cookie = name + "=" + encodeURIComponent(JSON.stringify(value)) + ";expires=" + d.toUTCString() + ";path=/";
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    // שמירה תמידית כ־JSON
+    document.cookie = `${name}=${encodeURIComponent(JSON.stringify(value))};${expires};path=/;SameSite=Lax`;
 }
 
 function getCookie(name) {
-  const cname = name + "=";
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const ca = decodedCookie.split(';');
-  for(let c of ca) {
-    c = c.trim();
-    if (c.indexOf(cname) === 0) {
-      try {
-        return JSON.parse(c.substring(cname.length, c.length));
-      } catch {
-        return null;
-      }
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for (let c of ca) {
+        c = c.trim();
+        if (c.indexOf(name + "=") === 0) {
+            const raw = c.substring(name.length + 1);
+            try {
+                return JSON.parse(raw); // נחזיר אובייקט אמיתי
+            } catch (e) {
+                return null;
+            }
+        }
     }
-  }
-  return null;
+    return null;
 }
         
 
@@ -922,30 +924,40 @@ function endStage(completed) {
     gameRunning = false;
 
     if (completed) {
+        const stageTime = Math.floor((Date.now() - stageStartTime) / 1000);
+
+        document.getElementById('completedStage').textContent = currentStage;
+        document.getElementById('completedStageName').textContent = stageNames[currentStage - 1];
+        document.getElementById('stageScore').textContent = score;
+        document.getElementById('stageTime').textContent = stageTime;
+        document.getElementById('stageMaxCombo').textContent = maxCombo;
+        document.getElementById('starsCaught').textContent = starsCaught;
+        document.getElementById('bombsAvoided').textContent = bombsAvoided;
+        document.getElementById('blackholesAvoided').textContent = blackholesAvoided;
+        document.getElementById('lightningAvoided').textContent = lightningAvoided;
+        document.getElementById('levelScore').textContent = levelScore;
+        document.getElementById('completedStages').textContent = currentStage;
+
+        // התקדמות ברמה הגלובלית
+        const percent = Math.min((currentStage / 20) * 100, 100);
+        document.getElementById('levelProgressFill').style.width = percent + '%';
+        document.getElementById('levelProgressText').textContent = `${Math.round(percent)}%`;
+
         document.getElementById('stageComplete').style.display = 'block';
-        document.getElementById('stageStats').innerHTML = `
-            <p>⭐ כוכבים נתפסו: ${stageStarsCaught}</p>
-            <p>🌟 כוכבי זהב נתפסו: ${stageGoldStarsCaught}</p>
-            <p>💣 פצצות שנמנעו: ${stageBombsAvoided}</p>
-            <p>⛈️ ברקים שנמנעו: ${stageLightningAvoided}</p>
-            <p>🎯 אחוזי הצלחה: ${Math.round((stageStarsCaught / stageTarget) * 100)}%</p>
-        `;
     } else {
+        document.getElementById('failScore').textContent = score;
+        document.getElementById('failTarget').textContent = baseStageTargets[currentStage - 1] * globalLevel;
         document.getElementById('gameOver').style.display = 'block';
-        document.getElementById('finalStats').innerHTML = `
-            <p>⭐ כוכבים נתפסו: ${stageStarsCaught}</p>
-            <p>🌟 כוכבי זהב נתפסו: ${stageGoldStarsCaught}</p>
-            <p>💣 פצצות שנמנעו: ${stageBombsAvoided}</p>
-            <p>⛈️ ברקים שנמנעו: ${stageLightningAvoided}</p>
-            <p>🎯 אחוזי הצלחה: ${Math.round((stageStarsCaught / stageTarget) * 100)}%</p>
-        `;
     }
 
     // 🟢 שמירת מצב המשחק בעוגיה
-    setCookie("catchStarsSave", {
-        globalLevel, currentStage, levelScore, lives
-    }, 30);
-}
+setCookie("catchStarsSave", {
+    globalLevel,
+    currentStage,
+    levelScore,
+    lives
+}, 30);
+
         
         function nextStage() {
             currentStage++;
@@ -1051,15 +1063,13 @@ document.addEventListener('DOMContentLoaded', function() {
     updateLegend();
 
     // 🟢 טעינת מצב שמור מהעוגיה
-    const saved = getCookie("catchStarsSave");
-    if (saved) {
-        globalLevel = saved.globalLevel || 1;
-        currentStage = saved.currentStage || 1;
-        levelScore = saved.levelScore || 0;
-        lives = saved.lives || 3;
-        updateGlobalLevel();
-        updateLegend();
-    }
+const savedGame = getCookie("catchStarsSave");
+if (savedGame) {
+    globalLevel = savedGame.globalLevel || 1;
+    currentStage = savedGame.currentStage || 1;
+    levelScore = savedGame.levelScore || 0;
+    lives = savedGame.lives || 3;
+}
     
     // התחל את המשחק אחרי רגע קצר
     setTimeout(() => {
