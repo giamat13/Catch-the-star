@@ -635,47 +635,50 @@
         // ----------------------------
         //  שמירה / טעינה מלאה (localStorage)
         // ----------------------------
-        function saveGameState(reason = '') {
-            try {
-                const state = {
-                    globalLevel,
-                    currentStage,
-                    score,
-                    levelScore,
-                    lives,
-                    starSpeed,
-                    spawnRate,
-                    bombChance,
-                    combo,
-                    comboCount,
-                    maxCombo,
-                    shieldTime,
-                    speedBoostTime,
-                    freezeTime,
-                    magnetTime,
-                    doublePointsTime,
-                    lastStarType,
-                    stageStartTime,
-                    levelStartTime,
-                    starsCaught,
-                    bombsAvoided,
-                    blackholesAvoided,
-                    lightningAvoided,
-                    levelStarsCaught,
-                    completedStages,
-                    mouseX,
-                    mouseY,
-                    gameRunning,
-                    savedAt: Date.now()
-                };
-                localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-                // small visual feedback - console + brief flash (optional)
-                console.log("Game saved", reason, state);
-            } catch (e) {
-                console.error("Save failed", e);
-            }
+function saveGameState(reason = '', stageCompleted = false) {
+    try {
+        if (stageCompleted) {
+            // אם השלב הושלם, נעלה לשלב הבא
+            currentStage = Math.min(currentStage + 1, 20);
         }
 
+        const state = {
+            globalLevel,
+            currentStage,
+            score,
+            levelScore,
+            lives,
+            starSpeed,
+            spawnRate,
+            bombChance,
+            combo,
+            comboCount,
+            maxCombo,
+            shieldTime,
+            speedBoostTime,
+            freezeTime,
+            magnetTime,
+            doublePointsTime,
+            lastStarType,
+            stageStartTime,
+            levelStartTime,
+            starsCaught,
+            bombsAvoided,
+            blackholesAvoided,
+            lightningAvoided,
+            levelStarsCaught,
+            completedStages,
+            mouseX,
+            mouseY,
+            gameRunning,
+            savedAt: Date.now()
+        };
+        localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+        console.log("Game saved", reason, state);
+    } catch (e) {
+        console.error("Save failed", e);
+    }
+}
         function loadGameState() {
             try {
                 const saved = localStorage.getItem(SAVE_KEY);
