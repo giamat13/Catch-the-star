@@ -181,7 +181,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.95);
-            padding: clamp(15px, 4vw, 25px);
+            padding: 0;
             border-radius: 12px;
             text-align: center;
             border: 2px solid #ffeb3b;
@@ -190,9 +190,25 @@
             max-height: 90vh;
             max-width: 95vw;
             min-width: 280px;
-            overflow-y: auto;
             font-size: clamp(11px, 2vw, 14px);
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .popup-content {
+            padding: clamp(15px, 4vw, 25px);
+            overflow-y: auto;
+            flex-grow: 1;
+            max-height: calc(90vh - 80px);
+        }
+        
+        .popup-buttons {
+            padding: clamp(10px, 3vw, 20px);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            border-radius: 0 0 10px 10px;
+            flex-shrink: 0;
         }
         
         #stageComplete { border-color: #4caf50; }
@@ -379,7 +395,7 @@
         <div class="legend-item" id="doubleLegend" style="opacity: 0.5;">💎 כפול (רמה 4+)</div>
         <div class="legend-item" style="color: #f44336;">💥 פצצה</div>
         <div class="legend-item" style="color: #9c27b0;">🕳️ חור שחור</div>
-        <div class="legend-item" style="color: #ff5722;">⚡ זיק</div>
+        <div class="legend-item" style="color: #ff5722;">🌩️ זיק</div>
     </div>
     
     <div id="stageInfo">
@@ -410,54 +426,66 @@
     <div id="gameContainer">
         <div id="player">🎯</div>
         
-        <div id="gameOver">
-            <h2>נכשלת בשלב!</h2>
-            <p>ניקוד: <span id="failScore">0</span> מתוך <span id="failTarget">0</span></p>
-            <button class="retry-btn" onclick="retryStage()">נסה שוב</button>
-            <button onclick="restartGame()">התחל מחדש</button>
+        <div id="gameOver" style="display: none;">
+            <div class="popup-content">
+                <h2>נכשלת בשלב!</h2>
+                <p>ניקוד: <span id="failScore">0</span> מתוך <span id="failTarget">0</span></p>
+            </div>
+            <div class="popup-buttons">
+                <button class="retry-btn" onclick="retryStage()">נסה שוב</button>
+                <button onclick="restartGame()">התחל מחדש</button>
+            </div>
         </div>
         
-        <div id="stageComplete">
-            <h2>🎉 כל הכבוד! עברת את השלב! 🎉</h2>
-            <p>שלב <span id="completedStage">1</span> - <span id="completedStageName">התחלה</span> הושלם!</p>
-            
-            <div style="background: rgba(76,175,80,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                <h3>📊 סטטיסטיקות השלב:</h3>
-                <p>🎯 ניקוד השלב: <span id="stageScore">0</span> נקודות</p>
-                <p>⏱️ זמן השלב: <span id="stageTime">0</span> שניות</p>
-                <p>🔥 קומבו מקסימלי: <span id="stageMaxCombo">1</span></p>
-                <p>⭐ כוכבים שנתפסו: <span id="starsCaught">0</span></p>
-                <p>💥 פצצות שנמנעו: <span id="bombsAvoided">0</span></p>
-                <p>🕳️ חורים שחורים שנמנעו: <span id="blackholesAvoided">0</span></p>
-                <p>⚡ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
-            </div>
-            
-            <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
-                <h3>📈 התקדמות ברמה הגלובלית:</h3>
-                <p>📊 סה"כ נקודות ברמה: <span id="levelScore">0</span></p>
-                <p>🎮 שלבים שהושלמו: <span id="completedStages">0</span>/20</p>
-                <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; margin: 10px 0;">
-                    <div id="levelProgressFill" style="height: 100%; background: linear-gradient(90deg, #ff9800, #ffc107); border-radius: 10px; transition: width 0.3s; position: relative;">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="levelProgressText"></div>
+        <div id="stageComplete" style="display: none;">
+            <div class="popup-content">
+                <h2>🎉 כל הכבוד! עברת את השלב! 🎉</h2>
+                <p>שלב <span id="completedStage">1</span> - <span id="completedStageName">התחלה</span> הושלם!</p>
+                
+                <div style="background: rgba(76,175,80,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <h3>📊 סטטיסטיקות השלב:</h3>
+                    <p>🎯 ניקוד השלב: <span id="stageScore">0</span> נקודות</p>
+                    <p>⏱️ זמן השלב: <span id="stageTime">0</span> שניות</p>
+                    <p>🔥 קומבו מקסימלי: <span id="stageMaxCombo">1</span></p>
+                    <p>⭐ כוכבים שנתפסו: <span id="starsCaught">0</span></p>
+                    <p>💥 פצצות שנמנעו: <span id="bombsAvoided">0</span></p>
+                    <p>🕳️ חורים שחורים שנמנעו: <span id="blackholesAvoided">0</span></p>
+                    <p>🌩️ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
+                </div>
+                
+                <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                    <h3>📈 התקדמות ברמה הגלובלית:</h3>
+                    <p>📊 סה"כ נקודות ברמה: <span id="levelScore">0</span></p>
+                    <p>🎮 שלבים שהושלמו: <span id="completedStages">0</span>/20</p>
+                    <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 20px; margin: 10px 0;">
+                        <div id="levelProgressFill" style="height: 100%; background: linear-gradient(90deg, #ff9800, #ffc107); border-radius: 10px; transition: width 0.3s; position: relative;">
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);" id="levelProgressText"></div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div style="display: flex; gap: clamp(5px, 2vw, 10px); justify-content: center; margin-top: 15px; flex-wrap: wrap;">
-                <button onclick="nextStage()" style="background: linear-gradient(45deg, #4caf50, #8bc34a); font-size: clamp(12px, 2.5vw, 16px); padding: clamp(10px, 2.5vw, 15px) clamp(15px, 4vw, 25px); flex: 1; min-width: 120px; max-width: 200px;">
-                    <span id="nextStageText">שלב הבא →</span>
-                </button>
-                <button onclick="retryStage()" class="retry-btn" style="flex: 1; min-width: 120px; max-width: 180px;">נסה שלב זה שוב</button>
+            <div class="popup-buttons">
+                <div style="display: flex; gap: clamp(5px, 2vw, 10px); justify-content: center; flex-wrap: wrap;">
+                    <button onclick="nextStage()" style="background: linear-gradient(45deg, #4caf50, #8bc34a); font-size: clamp(12px, 2.5vw, 16px); padding: clamp(10px, 2.5vw, 15px) clamp(15px, 4vw, 25px); flex: 1; min-width: 120px; max-width: 200px;">
+                        <span id="nextStageText">שלב הבא →</span>
+                    </button>
+                    <button onclick="retryStage()" class="retry-btn" style="flex: 1; min-width: 120px; max-width: 180px;">נסה שלב זה שוב</button>
+                </div>
             </div>
         </div>
         
-        <div id="levelComplete">
-            <h2>🎉 מזל טוב! עליתי רמה גלובלית! 🎉</h2>
-            <p>סיימת רמה <span id="completedLevel">1</span>!</p>
-            <p>עליתי לרמה <span id="newLevel">2</span>!</p>
-            <p>מכפיל חדש: x<span id="newMultiplier">2</span></p>
-            <p>פאוור-אפים חדשים נפתחו!</p>
-            <button class="mega-btn" onclick="nextLevel()">התחל רמה חדשה!</button>
+        <div id="levelComplete" style="display: none;">
+            <div class="popup-content">
+                <h2>🎉 מזל טוב! עליתי רמה גלובלית! 🎉</h2>
+                <p>סיימת רמה <span id="completedLevel">1</span>!</p>
+                <p>עליתי לרמה <span id="newLevel">2</span>!</p>
+                <p>מכפיל חדש: x<span id="newMultiplier">2</span></p>
+                <p>פאוור-אפים חדשים נפתחו!</p>
+            </div>
+            <div class="popup-buttons">
+                <button class="mega-btn" onclick="nextLevel()">התחל רמה חדשה!</button>
+            </div>
         </div>
     </div>
 
@@ -630,7 +658,7 @@
                 } else {
                     objectType = 'lightning';
                     object.className = 'lightning';
-                    object.textContent = '⚡';
+                    object.textContent = '🌩️';
                     object.dataset.speed = Math.random() > 0.5 ? 'fast' : 'normal';
                 }
             } else {
@@ -986,18 +1014,18 @@
                     
                     setTimeout(() => {
                         document.getElementById('stageComplete').style.display = 'none';
-                        document.getElementById('levelComplete').style.display = 'block';
+                        document.getElementById('levelComplete').style.display = 'flex';
                     }, 3000);
                 } else {
                     document.getElementById('nextStageText').textContent = `שלב ${currentStage + 1}: ${stageNames[currentStage]} →`;
                 }
                 
-                document.getElementById('stageComplete').style.display = 'block';
+                document.getElementById('stageComplete').style.display = 'flex';
             } else {
                 const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
                 document.getElementById('failScore').textContent = score;
                 document.getElementById('failTarget').textContent = target;
-                document.getElementById('gameOver').style.display = 'block';
+                document.getElementById('gameOver').style.display = 'flex';
             }
         }
         
