@@ -317,7 +317,7 @@
         <div class="legend-item" id="doubleLegend" style="opacity: 0.5;">💎 כפול (רמה 4+)</div>
         <div class="legend-item" style="color: #f44336;">💥 פצצה</div>
         <div class="legend-item" style="color: #9c27b0;">🕳️ חור שחור</div>
-        <div class="legend-item" style="color: #ff5722;">⚡ זיק</div>
+        <div class="legend-item" style="color: #ff5722;">⛈️ זיק</div>
     </div>
     
     <div id="stageInfo">
@@ -367,7 +367,7 @@
                 <p>⭐ כוכבים שנתפסו: <span id="starsCaught">0</span></p>
                 <p>💥 פצצות שנמנעו: <span id="bombsAvoided">0</span></p>
                 <p>🕳️ חורים שחורים שנמנעו: <span id="blackholesAvoided">0</span></p>
-                <p>⚡ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
+                <p>⛈️ ברקים שנמנעו: <span id="lightningAvoided">0</span></p>
             </div>
             
             <div style="background: rgba(255,152,0,0.2); padding: 15px; border-radius: 10px; margin: 15px 0;">
@@ -568,7 +568,7 @@
                 } else {
                     objectType = 'lightning';
                     object.className = 'lightning';
-                    object.textContent = '⚡';
+                    object.textContent = '⛈️';
                     object.dataset.speed = Math.random() > 0.5 ? 'fast' : 'normal';
                 }
             } else {
