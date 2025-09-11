@@ -715,7 +715,7 @@ function saveGameState(reason = '', stageCompleted = false) {
                 mouseY = state.mouseY ?? mouseY;
                 gameRunning = state.gameRunning ?? false;
 
-                // עדכון UI ומיקום שחקן
+                // עדכון UI
                 updateGlobalLevel();
                 updateLegend();
                 updateScore();
@@ -733,30 +733,20 @@ function saveGameState(reason = '', stageCompleted = false) {
                     player.style.top = (mouseY - 20) + 'px';
                 }
 
-                // אם השמירה נשמרה באמצע משחק - המשך
-                if (gameRunning) {
-                    resumeGame();
-                } else {
-                    // --- בדיקה אם השלב כבר הסתיים ---
-                    const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
+                const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
+
+                // אם המשחק לא רץ - החלט מה לעשות
+                if (!gameRunning) {
                     if (score >= target) {
-                        // הצג מסך שלב הושלם
-                        document.getElementById('stageComplete').style.display = 'block';
-                        document.getElementById('completedStage').textContent = currentStage;
-                        document.getElementById('completedStageName').textContent = stageNames[currentStage - 1] || '';
-                        document.getElementById('stageScore').textContent = score;
-                        document.getElementById('stageTime').textContent = Math.floor((Date.now() - stageStartTime)/1000);
-                        document.getElementById('stageMaxCombo').textContent = maxCombo;
-                        document.getElementById('stageStarsCaught').textContent = starsCaught;
-                        document.getElementById('stageBombsAvoided').textContent = bombsAvoided;
-                        document.getElementById('stageBlackholesAvoided').textContent = blackholesAvoided;
-                        document.getElementById('stageLightningAvoided').textContent = lightningAvoided;
-                        updateLevelProgressUI();
+                        // עברת שלב → עבור לשלב הבא והתחל מיד
+                        currentStage = Math.min(20, currentStage + 1);
                     } else if (lives <= 0) {
-                        document.getElementById('failScore').textContent = score;
-                        document.getElementById('failTarget').textContent = target;
-                        document.getElementById('gameOver').style.display = 'block';
+                        // נכשלת → אפס חיים והתחל את השלב הזה מחדש
+                        lives = 3;
                     }
+                    initStage(); // הפעלה מחדש אוטומטית
+                } else {
+                    resumeGame(); // אם המשחק רץ, פשוט המשך
                 }
 
                 console.log("Loaded save", state);
@@ -767,6 +757,7 @@ function saveGameState(reason = '', stageCompleted = false) {
             }
         }
 
+        
         function clearSave() {
             localStorage.removeItem(SAVE_KEY);
             console.log("Save cleared");
