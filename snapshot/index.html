@@ -685,7 +685,7 @@ function saveGameState(reason = '', stageCompleted = false) {
                 if (!saved) return false;
                 const state = JSON.parse(saved);
 
-                // assign values (use nullish coalescing to preserve defaults)
+                // שחזור ערכים
                 globalLevel = state.globalLevel ?? globalLevel;
                 currentStage = state.currentStage ?? currentStage;
                 score = state.score ?? score;
@@ -715,7 +715,7 @@ function saveGameState(reason = '', stageCompleted = false) {
                 mouseY = state.mouseY ?? mouseY;
                 gameRunning = state.gameRunning ?? false;
 
-                // Update UI and player position
+                // עדכון UI ומיקום שחקן
                 updateGlobalLevel();
                 updateLegend();
                 updateScore();
@@ -726,7 +726,6 @@ function saveGameState(reason = '', stageCompleted = false) {
                 updateLevelProgressUI();
 
                 if (mouseX && mouseY) {
-                    // keep within bounds
                     const rect = gameContainer.getBoundingClientRect();
                     mouseX = Math.max(20, Math.min(rect.width - 20, mouseX));
                     mouseY = Math.max(20, Math.min(rect.height - 20, mouseY));
@@ -734,9 +733,30 @@ function saveGameState(reason = '', stageCompleted = false) {
                     player.style.top = (mouseY - 20) + 'px';
                 }
 
-                // If saved state was running, resume loop
+                // אם השמירה נשמרה באמצע משחק - המשך
                 if (gameRunning) {
                     resumeGame();
+                } else {
+                    // --- בדיקה אם השלב כבר הסתיים ---
+                    const target = Math.floor(baseStageTargets[currentStage - 1] * globalLevel);
+                    if (score >= target) {
+                        // הצג מסך שלב הושלם
+                        document.getElementById('stageComplete').style.display = 'block';
+                        document.getElementById('completedStage').textContent = currentStage;
+                        document.getElementById('completedStageName').textContent = stageNames[currentStage - 1] || '';
+                        document.getElementById('stageScore').textContent = score;
+                        document.getElementById('stageTime').textContent = Math.floor((Date.now() - stageStartTime)/1000);
+                        document.getElementById('stageMaxCombo').textContent = maxCombo;
+                        document.getElementById('stageStarsCaught').textContent = starsCaught;
+                        document.getElementById('stageBombsAvoided').textContent = bombsAvoided;
+                        document.getElementById('stageBlackholesAvoided').textContent = blackholesAvoided;
+                        document.getElementById('stageLightningAvoided').textContent = lightningAvoided;
+                        updateLevelProgressUI();
+                    } else if (lives <= 0) {
+                        document.getElementById('failScore').textContent = score;
+                        document.getElementById('failTarget').textContent = target;
+                        document.getElementById('gameOver').style.display = 'block';
+                    }
                 }
 
                 console.log("Loaded save", state);
