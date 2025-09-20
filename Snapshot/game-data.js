@@ -1,5 +1,5 @@
 // ----------------------------
-//  משתנים גלובליים
+// משתנים גלובליים
 // ----------------------------
 let globalLevel = 1;
 let currentStage = 1;
@@ -8,7 +8,7 @@ let levelScore = 0;
 let lives = 3;
 let gameRunning = false;
 let starSpeed = 2;
-const spawnInterval = 1000; // זמן בין יצירת עצמים במילישניות
+let spawnInterval = 1000; // מילישניות, משך זמן בין יצירת עצמים
 let spawnRate = 0.025;
 let bombChance = 0.1;
 let combo = 1;
@@ -39,7 +39,7 @@ let autoSaveIntervalId = null;
 const SAVE_KEY = "catchStarsSave_v1";
 
 // ----------------------------
-//  ארגז כלים: cookie helpers
+// ארגז כלים: cookie helpers
 // ----------------------------
 function setCookie(name, value, days) {
   const d = new Date();
@@ -65,7 +65,7 @@ function getCookie(name) {
 }
 
 // ----------------------------
-//  תבניות שלבים, סוגי כוכבים ופאוור-אפים
+// תבניות שלבים, סוגי כוכבים ופאוור-אפים
 // ----------------------------
 const baseStageTargets = [
   100, 150, 200, 280, 370, 480, 600, 750, 920, 1120,
@@ -97,7 +97,7 @@ const powerupTypes = [
 ];
 
 // ----------------------------
-//  אלמנטים DOM
+// אלמנטים DOM
 // ----------------------------
 const gameContainer = document.getElementById('gameContainer');
 const player = document.getElementById('player');
