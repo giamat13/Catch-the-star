@@ -7,7 +7,10 @@ function loadScript(src) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = src;
-        script.onload = resolve;
+        script.onload = () => {
+            console.log(`הסקריפט ${src} נטען בהצלחה`);
+            resolve();
+        };
         script.onerror = () => reject(new Error(`שגיאה בטעינת ${src}`));
         document.head.appendChild(script);
     });
@@ -18,6 +21,11 @@ async function startGame() {
     try {
         await loadScript('game-data.js');
         await loadScript('game-logic.js');
+
+        // ודא שהמשתנה spawnInterval מוגדר ב-game-data.js
+        if (typeof spawnInterval === 'undefined') {
+            throw new Error("spawnInterval לא מוגדר ב-game-data.js");
+        }
 
         // אתחול ראשוני של המשתמש
         updateScore();
