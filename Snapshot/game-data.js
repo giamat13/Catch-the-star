@@ -8,6 +8,7 @@ let levelScore = 0;
 let lives = 3;
 let gameRunning = false;
 let starSpeed = 2;
+const spawnInterval = 1000; // זמן בין יצירת עצמים במילישניות
 let spawnRate = 0.025;
 let bombChance = 0.1;
 let combo = 1;
